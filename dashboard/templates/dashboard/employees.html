@@ -1,0 +1,151 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %} Employees {% endblock %}
+{% block head %}
+ <style>
+    .example-modal .modal {
+      position: relative;
+      top: auto;
+      bottom: auto;
+      right: auto;
+      left: auto;
+      display: block;
+      z-index: 1;
+    }
+    .example-modal .modal {
+      background: transparent !important;
+    }
+  </style>
+
+{% endblock %}
+{% block content %}
+
+
+   
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          
+
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">List Of All Employees</h3>
+              <a href= "{% url 'dashboard:addemployees' %}">
+              <button type="button" style="float: right;" class="btn btn-success" ><i class="fa fa-plus"></i> &nbsp; <b>Add new Employee</b> </button>
+          </a>
+            </div>
+
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table class="table table-bordered table-striped datatable">
+                <thead>
+                <tr>
+                  <th>Sr No.</th>
+                  <th>Email</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Department Name</th>
+                  <th>Active | Inactive</th>
+                  <th>Edit || Delete </th>
+                </tr>
+                </thead>
+                <tbody>
+                	{% for employe in emps %}
+                <tr>
+                	<td>{{ forloop.counter }}</td>
+                  <td>{{employe.user.email}}</td>
+                  <td>{{employe.user.first_name}}</td>
+                  <td>{{employe.user.last_name}}</td>
+                  <td>
+                    {{employe.department.name}}
+                    
+                  </td>
+                <td><a href="{% url 'dashboard:activeemployees' employe.user.id %}">{% if employe.user.is_active %}
+                  <button type="button" class="btn btn-success">Active</button>
+                    {% else %}
+
+                    <button type="button" class="btn btn-danger">Deactive</button>
+
+                    {% endif %}
+                  </a>
+                  </td>
+
+
+                  <td><a href="{% url 'dashboard:employees-edit' employe.id %}"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button> </a> <button type="button" value="{{employe.id}}" data-toggle="modal" data-target="#modal-danger"  class="btn btn-danger" onclick= "deletebtn($(this))"><i class="fa fa-trash"></i></button></td>
+                </tr>
+                {% endfor %}
+                
+                </tbody>
+                <tfoot>
+                <tr>
+                 <th>Sr No.</th>
+                  <th>Email</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Department Name</th>
+                  <th>Active | Inactive</th>
+                  <th>Edit || Delete </th>
+                </tr>
+                </tfoot>
+              </table>
+
+
+
+            </div>
+
+            <!-- /.box-body -->
+
+
+        <div class="modal modal-danger fade" id="modal-danger">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+
+                <h4 class="modal-title">Delete This User</h4>
+              </div>
+              <div class="modal-body">
+              	<h1>Are You Sure ?</h1>
+              	<h4 class="modal-title"> The user once deleted cannot be called again.
+             
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                <form method="post" id="deleteform">
+                    {% csrf_token %}
+              <input type="hidden" name="id" >
+              <button type="submit" class="btn btn-outline">Yes</button>
+          	</form>
+                
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+
+{% endblock %}
+{% block js %}
+
+<script type="text/javascript">
+  $(window).on('load', function() {
+      $('input[name="id"]').val() = "";
+  });
+  function deletebtn(arg) {
+    var id = arg.val();
+    $('input[name="id"]').val(id);
+  }
+</script>
+
+{% endblock %}

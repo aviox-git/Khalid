@@ -1,0 +1,177 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %} AddEmployees {% endblock %}
+{% block head %}
+
+
+{% endblock %}
+{% block content %}
+
+
+      <section class="content">
+
+        <div class="row">
+
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Add Employees</h3>
+            </div>
+            <!-- /.box-header -->
+
+            <!-- form start -->
+            <form class="form-horizontal" method="post" id="addUserForm"  enctype="multipart/form-data">
+                    {% csrf_token %}
+                   
+              <div class="box-body">
+
+               <div class="form-group">
+                <label ></label>
+                 <label for="productimage" class="col-sm-2 control-label">First Name</label>
+                <div class="col-sm-10">
+                 <input type="text" class="form-control" placeholder="First Name" pattern="([^\s][A-z0-9À-ž\s]+)" name="first_name" id="first_name">
+               </div>
+             </div>
+
+             <div class="form-group">
+              <label ></label>
+              <label for="quantity" class="col-sm-2 control-label">Last Name</label>
+
+              <div class="col-sm-10">
+               <input type="text" class="form-control" min=1 placeholder="Last Name" pattern="([^\s][A-z0-9À-ž\s]+)" name="last_name" id="last_name">
+             </div>
+           </div>
+
+           <div class="form-group">
+            <label ></label>
+            <label for="quantity" class="col-sm-2 control-label">Email Address</label>
+            <div class="col-sm-10">
+             <input type="email" class="form-control" placeholder="Email" name="email" id="email">
+           </div>
+         </div>
+
+         <div class="form-group">
+          <label ></label>
+          <label for="image" class="col-sm-2 control-label">Image</label>
+          <div class="col-sm-10">
+           <input type="file" class="form-control" placeholder="image" name="image" id="image">
+         </div>
+       </div>
+
+       <div class="form-group">
+        <label ></label>
+        <label for="department" class="col-sm-2 control-label">Department</label>
+        <div class="col-sm-10">
+         <select class="form-control" id="department" name="department">
+           <option value="" disabled selected> Select the Department</option>
+
+           {% for department in dep %}
+           <option value="{{department.id}}"> {{department.name}} </option>
+           {% endfor %}
+         </select>
+       </div>
+     </div>
+
+     <div class="form-group">
+      <label ></label>
+      <label for="quantity" class="col-sm-2 control-label">Password</label>
+      <div class="col-sm-10">
+       <input type="password" class="form-control" min=1 placeholder="Password"  name="passwd" id="pass">
+     </div>
+   </div>
+
+   <div class="form-group">
+    <label ></label>
+    <label for="quantity" class="col-sm-2 control-label">Confirm Password</label>
+    <div class="col-sm-10">
+     <input type="password" class="form-control" min=1 placeholder="Confirm Password"  name="re_pass" id="re_pass">
+   </div>
+ </div>
+
+</div>
+<!-- /.box-body -->
+<div class="box-footer">
+  <button type="submit" class="btn btn-info pull-right">Create Employee</button>
+</div>
+<!-- /.box-footer -->
+</form>
+</div>
+
+</div>
+</section>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script type="text/javascript">
+      //Date picker
+      $('#datepicker').datepicker({
+        autoclose: true,
+        format:'dd/MM/yyyy'
+      });
+    $('#addUserForm').on('submit', function(event) {
+     // event.preventDefault();
+     var error = false
+     var first_name = $('#first_name').val();
+     var last_name = $('#last_name').val();
+     var email = $('#email').val();
+     var pass = $('#pass').val();
+     var re_pass = $('#re_pass').val();
+     var image = $('#image').val();
+     var department = $('#department').val();
+   //   var users = {{all_users | safe}};
+
+   //   for( let user of users){
+   //    if (email == user.username){
+   //     toastr.error("Email with same name already existed");
+   //     error = true;
+   //   }
+   // }
+       if (pass == '' || pass == undefined || pass == null){
+    toastr.error("Password is required");
+    error = true;
+    }
+
+
+       if (re_pass == '' || re_pass  == undefined || re_pass == null){
+       toastr.error("password is required");
+       error = true;
+   }
+
+       if (pass !== re_pass ){
+    toastr.error("Passwords didn't matched");
+    $('#pass').val('');
+    $('#re_pass').val('');
+    error = true;
+    }
+
+    if  (first_name == '' || first_name == undefined || first_name == null){
+    	toastr.error("First name is required")
+    	error = true;
+    }
+
+    if (last_name == '' || last_name == undefined || last_name ==null) {
+    	toastr.error("Last name is required")
+    	error = true;
+    }
+
+    if (email == '' || email == undefined || email ==null){
+    	toastr.error("email is required")
+    	error = true;
+    }
+
+    if (department == '' || department == undefined || department == null){
+    	toastr.error("select the department")
+    	error = true;
+    }
+    console.log(error)
+    if (error == true) {return false};
+
+    return true 
+
+  
+ });
+</script>
+{% endblock %}
+

@@ -1,0 +1,7 @@
+*.pyc
+*.log
+*.pyc
+media/*
+extras/*
+dashboard/migrations/*
+db.sqlite3
