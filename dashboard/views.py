@@ -5,12 +5,12 @@ from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from dashboard.models import *
 from django.shortcuts import get_object_or_404
+from dashboard.forms import *  
+import os
+from django.conf import settings
+from django.http import HttpResponse, Http404
+import datetime
 
-
-
-
-
-# Create your views here.
 def base(request):
 	page = "homepage"
 	return render(request,'dashboard/home.html',locals())
@@ -143,6 +143,118 @@ def active_employees(request, user_id):
 		messages.success(request,'user is active'.format(user.username))
 	user.save()
 	return HttpResponseRedirect('/dashboard/employees')	
+
+  
+def FileView(request):
+	page = "event "
+	file = Filemodel.objects.all()
+	if request.method == 'POST':
+		id = request.POST.get('id')
+		data_file = Filemodel.objects.get(id=id)
+		data_file.delete() 
+		messages.error(request, 'Event  is success deleted')
+	return render(request,'dashboard/fileview.html',locals()) 
+
+
+def AddFile(request): 
+	page = "add" 
+	if request.method == 'POST':  
+		file = FilemodelForm(request.POST, request.FILES)  
+		if file.is_valid():
+			file.save()
+			return HttpResponseRedirect("/dashboard/fileview")  
+	else:  
+		file = FilemodelForm()  
+	return render(request,"dashboard/addfile.html",locals())  
+ 
+def File_edit(request, id):
+	f_edit = Filemodel.objects.get(id=id) 
+	if request.method == 'POST':
+		form = FilemodelForm (request.POST, request.FILES)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect("/dashboard/fileview")
+	else:
+		form = FilemodelForm()  
+	return render(request,"dashboard/file_edit.html",locals())  
+
+def promotion(request):
+	page ="promotion"
+	prom = PromotionModel.objects.all()
+	if request.method == 'POST':
+		prom_id = request.POST.get('id')
+		file = PromotionModel.objects.get(id=prom_id)
+		file.delete() 
+		messages.error(request, 'Promotion  is success deleted')
+
+	return render(request,"dashboard/promotion.html",locals())  
+
+def add_promotion(request):
+	page = " new promotion"
+	if request.method == 'POST':
+		file = PromotionModelForm(request.POST, request.FILES)
+		if file.is_valid():
+			file.save()
+			messages.success(request,"success")
+			return HttpResponseRedirect("/dashboard/promotion")
+	else:
+		file = PromotionModelForm()
+	return render(request,"dashboard/addpromotion.html", locals())
+
+# def promotion_edit(request, pk):
+# 	page = "promotion edit"
+# 	f_edit = PromotionModel.objects.get(pk=pk)
+# 	if request.method == "POST":
+# 		print(request.POST)
+# 		start_on = request.POST.get('start_on')
+# 		date = datetime.datetime.strptime(start_on, "%Y-%m-%d").date()
+# 		print(date)
+# 		form = PromotionModelForm(request.POST,instace = f_edit)
+# 		if form.is_valid():
+# 			instance = form.save(commit = False)
+# 			instace.start_on = date
+# 			print(instace.start_on,"")
+# 			instace.save()
+# 			messages.success(request, 'Promotion  is success Edit')
+# 			return HttpResponseRedirect("/dashboard/promotion")
+# 		else:
+# 			print(form.errors)
+# 	else:
+# 		form = PromotionModelForm()  
+# 	return render(request,"dashboard/promotion_edit.html",locals()) 
+
+
+def promotion_edit(request,pk):
+	page = "edit promotion"
+	pros = Filemodel.objects.all()
+	pro = PromotionModel.objects.get(pk=pk)
+	# pro = PromotionModelForm(pro) 
+	if request.method == 'POST':
+		a = request.POST.get('start_on')
+		date = datetime.datetime.strptime(a, "%Y-%m-%d").date()
+		name = request.POST.get('name')
+		file = request.POST.get('file')
+		pro.name = name
+		pro.start_on = date
+		if file:
+			file_obj = Filemodel.objects.get(pk = file)
+			pro.file = file_obj
+		pro.save()
+
+
+		return HttpResponseRedirect('/dashboard/promotion')
+	return render(request,'dashboard/promotion_edit.html',locals())
+
+
+
+
+
+
+ 
+
+
+
+ 
 
 
 
