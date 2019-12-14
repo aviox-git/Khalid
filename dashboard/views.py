@@ -18,8 +18,6 @@ def base(request):
 def layout(request):
 	return render(request,'dashboard/layout.html')
 
-
-
 def login(request):
 
 	if request.method == 'POST':
@@ -118,6 +116,7 @@ def employees_edit(request,emp_id):
 		first_name = request.POST.get('first_name')
 		last_name = request.POST.get('last_name')
 		department = request.POST.get('department')
+
 		emp.user.first_name = first_name
 		emp.user.last_name = last_name
 		emp.user.save()
@@ -157,12 +156,17 @@ def FileView(request):
 
 
 def AddFile(request): 
-	page = "add" 
+	page = "add CSV File" 
 	if request.method == 'POST':  
 		file = FilemodelForm(request.POST, request.FILES)  
 		if file.is_valid():
 			file.save()
-			return HttpResponseRedirect("/dashboard/fileview")  
+			return HttpResponseRedirect("/dashboard/fileview")
+		else:
+			if file.errors:
+				for field in file:
+					for error in field.errors:
+						messages.error(request,"{} in  {}".format(error,field.name))
 	else:  
 		file = FilemodelForm()  
 	return render(request,"dashboard/addfile.html",locals())  
@@ -174,6 +178,11 @@ def File_edit(request, id):
 		if form.is_valid():
 			form.save()
 			return HttpResponseRedirect("/dashboard/fileview")
+		else:
+			if form.errors:
+				for field in form:
+					for error in field.errors:
+						messages.error(request,"{} in  {}".format(error,field.name))
 	else:
 		form = FilemodelForm()  
 	return render(request,"dashboard/file_edit.html",locals())  
@@ -182,6 +191,7 @@ def promotion(request):
 	page ="promotion"
 	prom = PromotionModel.objects.all()
 	if request.method == 'POST':
+
 		prom_id = request.POST.get('id')
 		file = PromotionModel.objects.get(id=prom_id)
 		file.delete() 
@@ -190,39 +200,20 @@ def promotion(request):
 	return render(request,"dashboard/promotion.html",locals())  
 
 def add_promotion(request):
-	page = " new promotion"
+	page = "Add promotion"
 	if request.method == 'POST':
 		file = PromotionModelForm(request.POST, request.FILES)
 		if file.is_valid():
 			file.save()
 			messages.success(request,"success")
 			return HttpResponseRedirect("/dashboard/promotion")
+		if file.errors:
+				for field in file:
+					for error in field.errors:
+						messages.error(request,"{} in  {}".format(error,field.name))
 	else:
 		file = PromotionModelForm()
 	return render(request,"dashboard/addpromotion.html", locals())
-
-# def promotion_edit(request, pk):
-# 	page = "promotion edit"
-# 	f_edit = PromotionModel.objects.get(pk=pk)
-# 	if request.method == "POST":
-# 		print(request.POST)
-# 		start_on = request.POST.get('start_on')
-# 		date = datetime.datetime.strptime(start_on, "%Y-%m-%d").date()
-# 		print(date)
-# 		form = PromotionModelForm(request.POST,instace = f_edit)
-# 		if form.is_valid():
-# 			instance = form.save(commit = False)
-# 			instace.start_on = date
-# 			print(instace.start_on,"")
-# 			instace.save()
-# 			messages.success(request, 'Promotion  is success Edit')
-# 			return HttpResponseRedirect("/dashboard/promotion")
-# 		else:
-# 			print(form.errors)
-# 	else:
-# 		form = PromotionModelForm()  
-# 	return render(request,"dashboard/promotion_edit.html",locals()) 
-
 
 def promotion_edit(request,pk):
 	page = "edit promotion"
@@ -240,7 +231,6 @@ def promotion_edit(request,pk):
 			file_obj = Filemodel.objects.get(pk = file)
 			pro.file = file_obj
 		pro.save()
-
 
 		return HttpResponseRedirect('/dashboard/promotion')
 	return render(request,'dashboard/promotion_edit.html',locals())
