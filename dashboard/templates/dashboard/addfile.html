@@ -30,7 +30,7 @@
                   
                  <label for="productimage" class="col-sm-2 control-label">Name</label>
                 <div class="col-sm-10">
-                 <input type="text" value = "{{ form.name }} " class="form-control" placeholder="Name"  name="name" id="name">
+                 <input type="text" value = "{{ form.name }} " class="form-control" placeholder="Name"  name="name" required>
                </div>
              </div>
 
@@ -39,7 +39,7 @@
               <label for="quantity" class="col-sm-2 control-label">file</label>
 
               <div class="col-sm-10">
-              <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" value = "{{ form.file }}" name="file" id="file" multiple><br><br>
+              <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" value = "{{ form.file }}" name="file" id="file" multiple ,required><br><br>
 
           </div>
       </div>

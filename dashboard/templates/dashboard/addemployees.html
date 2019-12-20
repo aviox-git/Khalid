@@ -64,7 +64,7 @@
          <select class="form-control" id="department" name="department">
            <option value="" disabled selected> Select the Department</option>
 
-           {% for department in dep %}
+           {% for department in add_obj %}
            <option value="{{department.id}}"> {{department.name}} </option>
            {% endfor %}
          </select>

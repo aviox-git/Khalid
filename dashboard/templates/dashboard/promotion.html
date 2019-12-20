@@ -41,8 +41,10 @@
                   <th>Name</th>
                   <th>File</th>
                   <th>Start_On</th>
+                  <th>Templates</th>
+                  
 
-                  <th>Edit || Delete </th>
+                  <th>Send || Edit || Delete </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -64,9 +66,17 @@
                   	
                   </td>
                   <td>{{file_data.start_on}}</td>
+                  <td>
+                    <a href="{% url 'dashboard:template'  %}">
+                       <button type="button" class="btn btn-primary">View</button>
+
+                  </td>
 
                  
-                    <td><a href="{% url 'dashboard:promotion_edit' file_data.id %}"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button> </a> <button type="button" value="{{file_data.id}}" data-toggle="modal" data-target="#modal-danger"  class="btn btn-danger" onclick= "deletebtn($(this))"><i class="fa fa-trash"></i></button>
+                    <td>
+                      <a href="{% url 'dashboard:mail' file_data.id %}"><button type="button" class="btn btn-primary"><i class="fa fa-send-o"></i></button> </a>
+
+                      <a href="{% url 'dashboard:promotion_edit' file_data.id %}"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button> </a> <button type="button" value="{{file_data.id}}" data-toggle="modal" data-target="#modal-danger"  class="btn btn-danger" onclick= "deletebtn($(this))"><i class="fa fa-trash"></i></button>
                     </td>  
                 </tr>
                 {% endfor %}
@@ -78,8 +88,9 @@
                   <th>Name</th>
                   <th>File</th>
                   <th>Start_on</th>
+                  <th>Templates</th>
 
-                  <th>Edit || Delete </th>
+                  <th>Send || Edit || Delete </th>
                 </tr>
                 </tfoot>
               </table>
