@@ -1,0 +1,34 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %} FileEdit {% endblock %}
+{% block head %}
+
+
+{% endblock %}
+{% block content %}
+
+<form method="GET">
+	<button type="button" value="val_1" name="but1" >button 1</button>
+
+
+</form>
+{% endblock %}
+{% block js %}
+<script> 
+	$(document).ready(function() {
+
+		$('button').on('click',function(){
+			var url =  window.location.href.split('?')
+		   $.ajax({
+		   	type:"GET",
+		      	url: "http://127.0.0.1:8000/download/"+ url[1] +'?ajax=true',   
+		      	success: function(result) {
+		      		console.log('downloded');
+		      		console.log('installed')
+		      		}
+      			});
+		});
+   });
+
+ </script>
+ {% endblock %}

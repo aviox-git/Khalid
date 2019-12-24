@@ -1,0 +1,83 @@
+
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %} Template Add {% endblock %}
+{% block head %}
+
+
+{% endblock %}
+{% block content %}
+
+
+ <section class="content">
+
+        <div class="row">
+
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Add Template</h3>
+            </div>
+            <!-- /.box-header -->
+
+            <!-- form start -->
+            <form class="form-horizontal" method="post" id="addUserForm"  enctype="multipart/form-data">
+                    {% csrf_token %}
+                   
+              <div class="box-body">
+
+               <div class="form-group">
+                <label ></label>
+                 <label for="productimage" class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-10">
+                 <input type="text" class="form-control" placeholder="Enter The Name"  name="name" id="name" maxlength="40"  required>
+                  
+               </div>
+             </div>
+
+             <div class="form-group">
+              <label ></label>
+              <label for="quantity" class="col-sm-2 control-label">Subject</label>
+
+              <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Enter The  Subject"  name="subject" id="subject" maxlength="40" required><br />
+
+          </div>
+           </div>
+
+           <div class="form-group">
+                <label ></label>
+                 <label for="productimage" class="col-sm-2 control-label">Body</label>
+                <div class="col-sm-10">
+
+                 <textarea rows="8" class="form-control" placeholder="Enter The  body"  name="body" id="body"   cols="50"> {{body}}</textarea>
+                 
+               </div>
+             </div>
+
+             <div class="form-group">
+              <label ></label>
+              <label for="quantity" class="col-sm-2 control-label">Link</label>
+
+              <div class="col-sm-10">
+                <input type="url" class="form-control" placeholder="Enter The  Url"  name="link"  required>
+
+          </div>
+           </div>
+       </div>
+   </div>
+<!-- /.box-body -->
+<div class="box-footer">
+  <button type="submit" class="btn btn-info pull-right">Create Template</button>
+</div>
+<!-- /.box-footer -->
+</form>
+</div>
+
+</div>
+</section>
+</div>
+
+{% endblock %}
+{% block js %}
+
+{% endblock %}

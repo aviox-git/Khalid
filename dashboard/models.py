@@ -32,6 +32,7 @@ class TemplateModel(models.Model):
 	name = models.CharField(max_length=40,blank = False)
 	subject = models.CharField(max_length=100)
 	body = models.TextField()
+	link = models.URLField(max_length=100,null = True,blank = True)
 
 	def __str__(self):
 		return self.name
@@ -44,6 +45,20 @@ class PromotionModel(models.Model):
 
 	def __str__(self):
 		return self.name 
+
+user_choice =(('sent','sent'),('visited', 'visited'),('download','download'),('installed','installed'))		
+class PromotionStatus(models.Model):
+	promotion = models.ForeignKey(PromotionModel,on_delete=models.CASCADE, null =True)
+	email_address = models.EmailField(max_length = 80)
+	status = models.CharField(max_length = 20,choices = user_choice, default='sent')
+
+user_choices =(('sent','sent'),('visited', 'visited'),('download','download'),('installed','installed'))		
+class UserStatus(models.Model):
+	promotion = models.ForeignKey(PromotionStatus, on_delete = models.CASCADE)
+	status = models.CharField(max_length = 100, choices = user_choices, default='visited')
+	ip_address = models.GenericIPAddressField()
+	user_os = models.CharField(max_length = 50)
+
 
 
 

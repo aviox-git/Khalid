@@ -3,10 +3,7 @@
 {% load static %}
 {% block title %} Promotion Add {% endblock %}
 {% block head %}
-<style type="text/css">
-  #datepicker{width:180px; margin: 0 20px 20px 20px;}
-#datepicker > span:hover{cursor: pointer;}
-</style>
+
 
 {% endblock %}
 {% block content %}
@@ -32,7 +29,7 @@
                 <label ></label>
                  <label for="productimage" class="col-sm-2 control-label">Name</label>
                 <div class="col-sm-10">
-                <input type="text" class="form-control"  placeholder="Name"  name="name" id="name"  required>
+                <input type="text" class="form-control"  placeholder="Name"  name="name" id="name" maxlength="40" required>
 
                </div>
              </div>

@@ -25,18 +25,16 @@ urlpatterns = [
 	path('promotion-edit/<int:pk>', views.promotion_edit, name='promotion_edit'),
 	path('mail/<int:pk>', views.mail,name='mail'),
 
-	path('template', views.template, name='template'),
+	path('template/', views.template, name='template'),
 	path('addtemplate/', views.add_template, name = 'addtemplate'),
 	path('edit-template/<int:pk>', views.edit_template, name = 'edit_template'),
+
 
 	path('file-object/<int:file_id>', views.file_object, name='file_object'),
 	path('object-add/', views.object_add, name= 'object_add'),
 	path('edit-object/<int:pk>', views.edit_object, name='edit_object'),
 
-
-	
-	
-	
+	path('load', views.load, name= 'load'),
 
 
 	

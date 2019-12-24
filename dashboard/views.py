@@ -12,13 +12,51 @@ from django.http import HttpResponse, Http404
 import datetime
 import xlrd
 from django.template import RequestContext
+from Khalid.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
+from django.core import mail
+
+import string 
+import random
+import json
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import PromotionSerialiser
+
+from django.contrib.auth.decorators import login_required
+
+from user_agents import parse
+
+
+
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+login_url = '/dashboard/login'
+
+
+class promotionlist(APIView):
+
+	def get(self,request):
+		promotion1 = PromotionModel.objects.all()
+		serializer = PromotionSerialiser(promotion1, many = True)
+		return Response(serializer.data)
+
+	def post(self, request):
+		serializer = PromotionSerialiser(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 def base(request):
 	page = "homepage"
 	return render(request,'dashboard/home.html',locals())
+
 
 
 def login(request):
@@ -38,11 +76,13 @@ def login(request):
 				return HttpResponseRedirect('/dashboard/login')
 	return render(request,'dashboard/login.html')
 
+@login_required(login_url = login_url)
 def logoutView(request):
 	logout(request)
 	messages.success(request,"you have successfully logged")
 	return HttpResponseRedirect('/dashboard/login')
 
+@login_required(login_url = login_url)
 def department(request):
 	page = "department"
 	
@@ -55,6 +95,7 @@ def department(request):
 	departments=Departments.objects.all()
 	return render(request, 'dashboard/deparment.html',locals())
 
+@login_required(login_url = login_url)
 def departmentedit(request):
 	if request.method == 'GET':
 		dep_id = request.GET.get('id')
@@ -70,6 +111,7 @@ def departmentedit(request):
 
 	return HttpResponseRedirect('/dashboard/department')
 
+@login_required(login_url = login_url)
 def employees(request):
 	page = "employees table"
 	department = Departments.objects.all()
@@ -84,8 +126,7 @@ def employees(request):
 	
 	return render(request,'dashboard/employees.html',locals())
 
-
-
+@login_required(login_url = login_url)
 def add_employees(request):
 	page = "addemployees"
 	dep = Departments.objects.all()
@@ -110,7 +151,7 @@ def add_employees(request):
 		return HttpResponseRedirect('/dashboard/employees') 
 	return render(request,'dashboard/addemployees.html',locals())
 
-
+@login_required(login_url = login_url)
 def employees_edit(request,emp_id):
 	page = "edit employees"
 	dep = Departments.objects.all()
@@ -132,7 +173,7 @@ def employees_edit(request,emp_id):
 	return render(request,'dashboard/employees_edit.html',locals())
 
 
-
+@login_required(login_url = login_url)
 def active_employees(request, user_id):
 	userid = user_id
 	user = User.objects.get(id=userid)
@@ -145,9 +186,9 @@ def active_employees(request, user_id):
 	user.save()
 	return HttpResponseRedirect('/dashboard/employees')	
 
-  
+@login_required(login_url = login_url) 
 def FileView(request):
-	page = "event "
+	page = "Files "
 	file = Filemodel.objects.all()
 	if request.method == 'POST':
 		id = request.POST.get('id')
@@ -156,9 +197,9 @@ def FileView(request):
 		messages.error(request, 'Event  is success deleted')
 	return render(request,'dashboard/fileview.html',locals()) 
 
-		
+@login_required(login_url = login_url)		
 def AddFile(request): 
-	page = "add" 
+	page = "add file" 
 	files= FileOjectModel.objects.all()
 	if request.method == 'POST':
 		file = FilemodelForm(request.POST, request.FILES)  	
@@ -181,12 +222,14 @@ def AddFile(request):
 											email = email
 											))
 			FileOjectModel.objects.bulk_create(obj_list)		
-		return HttpResponseRedirect("/dashboard/fileview")  
+			return HttpResponseRedirect("/dashboard/fileview")  
 	else:  
 		file = FilemodelForm()  
 	return render(request,"dashboard/addfile.html",locals())  
-		 
+
+@login_required(login_url = login_url)		 
 def File_edit(request, id):
+	page = "edit file"
 	f_edit = Filemodel.objects.get(id=id) 
 	if request.method == 'POST':
 		form = FilemodelForm (request.POST, request.FILES)
@@ -197,7 +240,13 @@ def File_edit(request, id):
 		form = FilemodelForm()  
 	return render(request,"dashboard/file_edit.html",locals())  
 
+
+
 def promotion(request):
+	print(request.META.get('HTTP_USER_AGENT', ''))
+	print(request.META)
+	
+	# print(request.META)
 	page ="promotion"
 	prom = PromotionModel.objects.all()
 	if request.method == 'POST':
@@ -208,6 +257,7 @@ def promotion(request):
 
 	return render(request,"dashboard/promotion.html",locals())  
 
+@login_required(login_url = login_url)
 def add_promotion(request):
 	page = " new promotion"
 	add_p = TemplateModel.objects.all()
@@ -227,6 +277,7 @@ def add_promotion(request):
 		return HttpResponseRedirect("/dashboard/promotion")
 	return render(request,"dashboard/addpromotion.html", locals())
 
+@login_required(login_url = login_url)
 def promotion_edit(request,pk):
 	page = "edit promotion"
 	add_p = TemplateModel.objects.all()
@@ -235,12 +286,14 @@ def promotion_edit(request,pk):
 	if request.method == 'POST':
 		a = request.POST.get('start_on')
 		date = datetime.datetime.strptime(a, "%Y-%m-%d").date()
+
 		name = request.POST.get('name')
 		file = request.POST.get('file')
 		templates = request.POST.get('templates')
 
 		pro.name = name
 		pro.start_on = date
+
 		if file:
 			file_obj = Filemodel.objects.get(pk = file)
 			pro.file = file_obj
@@ -255,6 +308,7 @@ def promotion_edit(request,pk):
 		return HttpResponseRedirect('/dashboard/promotion')
 	return render(request,'dashboard/promotion_edit.html',locals())
 
+@login_required(login_url = login_url)
 def template(request):
 	page = "templates"
 	temp = TemplateModel.objects.all()
@@ -265,7 +319,7 @@ def template(request):
 		messages.success(request,"Template delete successfully")
 	return render(request, 'dashboard/template.html', locals())
 
-
+@login_required(login_url = login_url)
 def add_template(request):
 	adds= TemplateModel.objects.all()
 	page = "template add"
@@ -275,18 +329,21 @@ def add_template(request):
 	Thanks and regards.
 	
 	"""	
+	link="http://localhost:8000/dashboard/download"
 	if request.method == 'POST':
+
 		name = request.POST.get('name')
 		subject = request.POST.get('subject')
 		body = request.POST.get('body')
-		temp_add = TemplateModel(name = name , subject = subject, body = body)
+		link = request.POST.get('link')
+		temp_add = TemplateModel(name = name , subject = subject, body = body, link=link)
 		temp_add.save()
 		messages.success(request,"Add Template successfull")
 		return HttpResponseRedirect('/dashboard/template')
 
 	return render(request, 'dashboard/addtemplate.html', locals())
 
-
+@login_required(login_url = login_url)
 def edit_template(request,pk):
 	page = "edit template"
 
@@ -295,9 +352,11 @@ def edit_template(request,pk):
 		name = request.POST.get('name')
 		subject = request.POST.get('subject')
 		body = request.POST.get('body')
+		link = request.POST.get('link')
 		temp_edit.name = name
 		temp_edit.subject = subject
 		temp_edit.body = body
+		temp_edit.link = link
 		temp_edit.save()
 		
 		messages.success(request,"Template Edit successfully")
@@ -305,6 +364,7 @@ def edit_template(request,pk):
 		
 	return render(request, 'dashboard/edit_template.html', locals())
 
+@login_required(login_url = login_url)
 def file_object(request,file_id):
 	page = "file objects"
 	file = FileOjectModel.objects.filter(file_id = file_id)
@@ -313,12 +373,13 @@ def file_object(request,file_id):
 		files = FileOjectModel.objects.get(id=file_id)
 		file.delete()
 		messages.success(request,"File objects delete successfully")
+		return HttpResponseRedirect('/dashboard/file-object/'+str(file_id))
 
-	return render (request,'dashboard/file_object.html', locals())
+	return render (request,'dashboard/file_object.html/', locals())
 
-
+@login_required(login_url = login_url)
 def object_add(request):
-	page = "file add"
+	page = "add objects"
 	add_obj = Filemodel.objects.all()
 	file = FileOjectModel.objects.all()
 	if request.method == 'POST':
@@ -329,10 +390,10 @@ def object_add(request):
 		add_temps =FileOjectModel(file = add_temp, name=name , email=email)
 		add_temps.save()
 		messages.success(request,"File object Added successfully")
-		return HttpResponseRedirect('/dashboard/file-object')
+		return HttpResponseRedirect('/dashboard/file-object/'+str(file))
 	return render (request,'dashboard/object_add.html', locals())
 
-
+@login_required(login_url = login_url)
 def edit_object(request,pk):
 	page = "edit object"
 	obj_edit = Filemodel.objects.all()
@@ -353,26 +414,58 @@ def edit_object(request,pk):
 		
 	return render(request, 'dashboard/edit_object.html', locals())
 
-
-
+@login_required(login_url = login_url)
 def mail(request,pk):
-	page="mail"
+	
 	mails_data = PromotionModel.objects.get(pk=pk)
 	subject = mails_data.templates.subject
-	body = mails_data.templates.body
+	link = mails_data.templates.link
 	file = mails_data.file
 	email_list = list(FileOjectModel.objects.filter(file = file).values_list('email',flat=True))
 
-	return HttpResponseRedirect('/dashboard/promotion')
+	empty = []
+	print(email_list)
+	for item in email_list:
+		res = ''.join(random.choices(string.ascii_uppercase +
+                             string.digits, k = 8))
+		promotion_status = PromotionStatus(email_address=item , promotion=mails_data)
+		promotion_status.save()
+		link = request.build_absolute_uri('/')+ 'download/' + res + str(promotion_status.id)
+		send_mail(subject, link, (mails_data.name).upper(), [item,])
+	
+	messages.success(request,"Email sent successfully")
+
+	return HttpResponseRedirect('/dashboard/promotion',locals())
+
+def download(request,slug):
+	print(request.META)
+	ajax = request.GET.get('ajax')
+	slices = int(slug[8:])
+	status_id = PromotionStatus.objects.get(id=slices)
+	status_id.status ="visited"
+	if ajax:
+		status_id.status = "download"
+	status_id.save()
+
+	user = UserStatus.objects.create(
+		promotion = status_id,
+		status = status_id.status, 
+		ip_address = request.META.get('REMOTE_ADDR'),
+		
+		user_os = request.META.get('HTTP_USER_AGENT')
+
+		)
+	print(user.user_os)
 
 
+	user.save()
+	
+	link = status_id.promotion.templates.link +'?'+slug
+	return HttpResponseRedirect(link)
 
-
-
-
-
-
-
+def load(request):
+	
+	return render(request, 'dashboard/load.html')
 
 
 
@@ -383,28 +476,3 @@ def mail(request,pk):
 
 
  
-
-
-
- 
-
-
-
-
-
-
-
-
-	
-
-
-
-
-
-
-
-
-
-	
-
-

@@ -1,9 +1,9 @@
 {% extends 'dashboard/base.html' %}
 {% load static %}
-{% block title %} Promotion {% endblock %}
+{% block title %} Template {% endblock %}
 {% block head %}
 
- <style>
+<style>
     .example-modal .modal {
       position: relative;
       top: auto;
@@ -20,15 +20,16 @@
 {% endblock %}
 {% block content %}
 
- <section class="content">
+
+<section class="content">
       <div class="row">
         <div class="col-xs-12">
           
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">List Of All promotions</h3>
-              <a href= "{% url 'dashboard:addpromotion' %}">
-              <button type="button" style="float: right;" class="btn btn-success" ><i class="fa fa-plus"></i> &nbsp; <b>Add new Promotion</b> </button>
+              <h3 class="box-title">List Of All Template</h3>
+              <a href= "{% url 'dashboard:addtemplate' %}">
+              <button type="button" style="float: right;" class="btn btn-success" ><i class="fa fa-plus"></i> &nbsp; <b>Add new Template</b> </button>
           </a>
             </div>
 
@@ -39,37 +40,30 @@
                 <tr>
                   <th>Sr No.</th>
                   <th>Name</th>
-                  <th>File</th>
-                  <th>Start_On</th>
-                  <th>Templates</th>
-                  
+                  <th>Subject</th>
+                  <th>Body</th>
+                  <th>Link</th>
 
-                  <th>Send || Edit || Delete </th>
+                  <th>Edit || Delete </th>
                 </tr>
                 </thead>
                 <tbody>
-                	{% for file_data in prom %}
+                	{% for temp_data in temp %}
                 <tr>
                 	<td>{{ forloop.counter }}</td>
-                  <td>{{file_data.name|title}}</td>
+                  <td>{{temp_data.name}}</td>
 
                  
-                  <td>
-                    {{file_data.file.name|title}}
-                  </td>
-                  	
-                  </td>
-                  <td>{{file_data.start_on}}</td>
-                  <td>
-                    {{file_data.templates.name|title}}
+                  <td>{{temp_data.subject}}</td>
+              
+                  <td>{{temp_data.body}}</td>
 
-                  </td>
+                  <td>{{temp_data.link}}</td>
 
                  
-                    <td>
-                      <a href="{% url 'dashboard:mail' file_data.id %}"><button type="button" class="btn btn-primary"><i class="fa fa-send-o"></i></button> </a>
 
-                      <a href="{% url 'dashboard:promotion_edit' file_data.id %}"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button> </a> <button type="button" value="{{file_data.id}}" data-toggle="modal" data-target="#modal-danger"  class="btn btn-danger" onclick= "deletebtn($(this))"><i class="fa fa-trash"></i></button>
+                 
+                    <td><a href="{% url 'dashboard:edit_template' temp_data.id %}"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button> </a> <button type="button" value="{{temp_data.id}}" data-toggle="modal" data-target="#modal-danger"  class="btn btn-danger" onclick= "deletebtn($(this))"><i class="fa fa-trash"></i></button>
                     </td>  
                 </tr>
                 {% endfor %}
@@ -79,11 +73,10 @@
                 <tr>
                  <th>Sr No.</th>
                   <th>Name</th>
-                  <th>File</th>
-                  <th>Start_on</th>
-                  <th>Templates</th>
+                  <th>Subject</th>
+                  <th>Body</th>
 
-                  <th>Send || Edit || Delete </th>
+                  <th>Edit || Delete </th>
                 </tr>
                 </tfoot>
               </table>
@@ -136,7 +129,6 @@
 
 {% endblock %}
 {% block js %}
-
 <script type="text/javascript">
   $(window).on('load', function() {
       $('input[name="id"]').val() = "";
