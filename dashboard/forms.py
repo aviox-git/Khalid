@@ -12,12 +12,20 @@ class FilemodelForm(forms.ModelForm):
  
 
 class PromotionModelForm(forms.ModelForm):
-	start_on = forms.DateField(input_formats='%Y-%m-%d')
+	start_on = forms.DateField(input_formats='%m/%d/%Y')
 	# date=forms.DateTimeField(help_text="blog date")
 
 	class Meta:  
 		model = PromotionModel  
 		fields = "__all__"
+
+
+class TemplateModelForm(forms.ModelForm):
+	class Meta:
+		model = TemplateModel
+		fields = "__all__"
+
+
 
 
 
