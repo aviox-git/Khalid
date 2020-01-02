@@ -1,9 +1,9 @@
 {% extends 'dashboard/base.html' %}
 {% load static %}
-{% block title %} Template {% endblock %}
+{% block title %} Promotion {% endblock %}
 {% block head %}
 
-<style>
+ <style>
     .example-modal .modal {
       position: relative;
       top: auto;
@@ -20,17 +20,14 @@
 {% endblock %}
 {% block content %}
 
-
-<section class="content">
+ <section class="content">
       <div class="row">
         <div class="col-xs-12">
           
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">List Of All Template</h3>
-              <!-- <a href= "{% url 'dashboard:addtemplate' %}">
-              <button type="button" style="float: right;" class="btn btn-success" ><i class="fa fa-plus"></i> &nbsp; <b>Add new Template</b> </button>
-          </a> -->
+              <h3 class="box-title">List Of Promotion Result</h3>
+              
             </div>
 
             <!-- /.box-header -->
@@ -38,53 +35,38 @@
               <table class="table table-bordered table-striped datatable">
                 <thead>
                 <tr>
-                  <th>Sr No.</th>
-                  <th>Name</th>
-                  <th>Subject</th>
-                  <th>Body</th>
-                  <th>Preview</th>
-
-                  <th>Edit </th>
+                  <th><input type="checkbox" name="select_all" ></th>
+                  <th>Email</th>
+                  <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
-                	{% for temp_data in temp %}
+                	{% for proms in promotions %}
                 <tr>
-                	<td>{{ forloop.counter }}</td>
-                  <td>{{temp_data.name}}</td>
-                  <td>{{temp_data.subject}}</td>
-                  <td>{{temp_data.body}}</td>
+                  <td><input type="checkbox" name="select" value='{{proms.id}}'></td>
+
+                  <td>{{proms.email_address}}</td>
                   <td>
-                    <a href="{% url 'dashboard:template1' %}?id={{temp_data.id}}" target="_blank">
-                    <button class="btn btn-warning"><i class="fa fa-eye"></i></button>
-                   </a>
+                    {{proms.status|title}}
                   </td>
-                 
-                    <td><a href="{% url 'dashboard:edit_template' temp_data.id %}"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button> </a> 
-                      <!-- <button type="button" value="{{temp_data.id}}" data-toggle="modal" data-target="#modal-danger"  class="btn btn-danger" onclick= "deletebtn($(this))"><i class="fa fa-trash"></i></button> -->
-                    </td>  
+                  	
                 </tr>
                 {% endfor %}
                 
                 </tbody>
                 <tfoot>
+                 <thead>
                 <tr>
-                 <th>Sr No.</th>
-                  <th>Name</th>
-                  <th>Subject</th>
-                  <th>Body</th>
-                  <th>Preview</th>
-                  <th>Edit  </th>
+                  <th><input type="checkbox" name="select_all" ></th>
+                  <th>Email</th>
+                  <th>Status</th>
                 </tr>
+                </thead>
                 </tfoot>
               </table>
-
-
-
             </div>
 
             <!-- /.box-body -->
-
 
         <div class="modal modal-danger fade" id="modal-danger">
           <div class="modal-dialog">
@@ -127,13 +109,6 @@
 
 {% endblock %}
 {% block js %}
-<script type="text/javascript">
-  $(window).on('load', function() {
-      $('input[name="id"]').val() = "";
-  });
-  function deletebtn(arg) {
-    var id = arg.val();
-    $('input[name="id"]').val(id);
-  }
-</script>
+
+
 {% endblock %}

@@ -24,6 +24,7 @@ from rest_framework import status
 from .serializers import PromotionSerialiser
 from django.contrib.auth.decorators import login_required
 from user_agents import parse
+from django.template import loader
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -196,11 +197,11 @@ def FileView(request):
 def AddFile(request): 
 
 	
-	if request.method == 'POST':  
-		file = FilemodelForm(request.POST, request.FILES)  
-		if file.is_valid():
-			file.save()
-			return HttpResponseRedirect("/dashboard/fileview")
+	# if request.method == 'POST':  
+	# 	file = FilemodelForm(request.POST, request.FILES)  
+	# 	if file.is_valid():
+	# 		file.save()
+	# 		return HttpResponseRedirect("/dashboard/fileview")
 
 
 	page = "add CSV File" 
@@ -258,8 +259,6 @@ def File_edit(request, id):
 
 
 def promotion(request):
-	print(request.META.get('HTTP_USER_AGENT', ''))
-	print(request.META)
 	
 	# print(request.META)
 	page ="promotion"
@@ -343,14 +342,19 @@ def add_template(request):
 	Thanks and regards.
 	
 	"""	
-	link="http://localhost:8000/dashboard/download"
+	
 	if request.method == 'POST':
 
 		name = request.POST.get('name')
 		subject = request.POST.get('subject')
 		body = request.POST.get('body')
 		link = request.POST.get('link')
+		app_link = request.POST.get('app_link')
+		ios_link = request.POST.get('ios_link')
+
 		temp_add = TemplateModel(name = name , subject = subject, body = body, link=link)
+		temp_add.apk_link = app_link
+		temp_add.ios_link = ios_link
 		temp_add.save()
 		messages.success(request,"Add Template successfull")
 		return HttpResponseRedirect('/dashboard/template')
@@ -367,10 +371,15 @@ def edit_template(request,pk):
 		subject = request.POST.get('subject')
 		body = request.POST.get('body')
 		link = request.POST.get('link')
+		apk_link = request.POST.get('app_link')
+		ios_link = request.POST.get('ios_link')
+
 		temp_edit.name = name
 		temp_edit.subject = subject
 		temp_edit.body = body
 		temp_edit.link = link
+		temp_edit.apk_link = apk_link
+		temp_edit.ios_link = ios_link
 		temp_edit.save()
 		
 		messages.success(request,"Template Edit successfully")
@@ -434,32 +443,32 @@ def mail(request,pk):
 	
 	mails_data = PromotionModel.objects.get(pk=pk)
 	subject = mails_data.templates.subject
-	link = mails_data.templates.link
 	file = mails_data.file
 	email_list = list(FileOjectModel.objects.filter(file = file).values_list('email',flat=True))
+	
 
-	empty = []
-	print(email_list)
 	for item in email_list:
 		res = ''.join(random.choices(string.ascii_uppercase +
                              string.digits, k = 8))
 		promotion_status = PromotionStatus(email_address=item , promotion=mails_data)
 		promotion_status.save()
 		link = request.build_absolute_uri('/')+ 'download/' + res + str(promotion_status.id)
-		send_mail(subject, link, (mails_data.name).upper(), [item,])
+		temp_obj = mails_data.templates
+		html_message = loader.render_to_string('dashboard/tempalte1.html',locals())
+		message = " Hello User"
+		send_mail(subject, message, (mails_data.name).upper(), [item,],html_message = html_message)
 	
 	messages.success(request,"Email sent successfully")
 
 	return HttpResponseRedirect('/dashboard/promotion',locals())
 
 def download(request,slug):
-	print(request.META)
-	ajax = request.GET.get('ajax')
+
 	slices = int(slug[8:])
+	type_ = request.GET.get('type')
 	status_id = PromotionStatus.objects.get(id=slices)
 	status_id.status ="visited"
-	if ajax:
-		status_id.status = "download"
+
 	status_id.save()
 
 	user = UserStatus.objects.create(
@@ -469,15 +478,47 @@ def download(request,slug):
 		user_os = request.META.get('HTTP_USER_AGENT')
 		)
 	user.save()
-	link = status_id.promotion.templates.link +'?'+slug
+	if type_ == 'web':
+		link = status_id.promotion.templates.link
+	elif type_ == 'ios':
+		link = status_id.promotion.templates.ios_link
+	elif type_ == 'apk':
+		link = status_id.promotion.templates.apk_link
 	return HttpResponseRedirect(link)
 
-def load(request):
-	
-	return render(request, 'dashboard/load.html')
+class UpdateUser(APIView):
+
+	def post(self,request):
 
 
+		get_ip = request.META.get('REMOTE_ADDR')
+		get_from_post = request.POST.get('ip')
+		user_obj = UserStatus.objects.filter(ip_address = get_ip,status = 'visited').latest('-pk')
+		response = {}
+		if user_obj:
+			user = UserStatus.objects.create(
+			promotion = user_obj.promotion,
+			status = 'installed', 
+			ip_address = request.META.get('REMOTE_ADDR'),
+			user_os = request.META.get('HTTP_USER_AGENT')
+			)
+			user_obj.promotion.status = 'installed'
+			user_obj.promotion.save()
+			response['status'] = 200
+		return Response(response)
 
+@login_required
+def results(request,prom_id):
+	page = "View Promotion results"
+	promotions = PromotionStatus.objects.filter(promotion_id = prom_id)
+	return render(request,'dashboard/results.html',locals())
+
+@login_required
+def template1(request):
+	temp = request.GET.get('id')
+	if temp:
+		temp_obj = TemplateModel.objects.get(id= temp)
+	return render(request,'dashboard/tempalte1.html',locals())
 
 
 

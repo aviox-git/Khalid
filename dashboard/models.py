@@ -33,6 +33,8 @@ class TemplateModel(models.Model):
 	subject = models.CharField(max_length=100)
 	body = models.TextField()
 	link = models.URLField(max_length=100,null = True,blank = True)
+	apk_link = models.URLField(max_length=100,null = True,blank = True)
+	ios_link = models.URLField(max_length=100,null = True,blank = True)
 
 	def __str__(self):
 		return self.name

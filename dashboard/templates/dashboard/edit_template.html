@@ -8,67 +8,82 @@
 {% block content %}
 
 
- 
- <section class="content">
 
-        <div class="row">
+<section class="content">
 
-          <div class="box box-info">
-            <div class="box-header with-border">
-              <h3 class="box-title">Edit Template</h3>
-            </div>
-            <!-- /.box-header -->
+  <div class="row">
 
-            <!-- form start -->
-            <form class="form-horizontal" method="post" id="addUserForm"  enctype="multipart/form-data">
-                    {% csrf_token %}
-                   
-              <div class="box-body">
+    <div class="box box-info">
+      <div class="box-header with-border">
+        <h3 class="box-title">Edit Template</h3>
+      </div>
+      <!-- /.box-header -->
 
-               <div class="form-group">
-                <label ></label>
-                 <label for="productimage" class="col-sm-2 control-label">Name</label>
-                <div class="col-sm-10">
-                 <input type="text" value="{{temp_edit.name}}" class="form-control" placeholder=" Edit Name"  name="name" id="name" maxlength="40" required>
-               </div>
-             </div>
+      <!-- form start -->
+      <form class="form-horizontal" method="post" id="addUserForm"  enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="box-body">
 
-           
-             <div class="form-group">
-              <label ></label>
-
-              <label for="quantity" class="col-sm-2 control-label">Subject</label>
-
-              <div class="col-sm-10">
-                 <input type="text" value="{{temp_edit.subject}}" class="form-control" placeholder=" Edit Subject"  name="subject" id="subject"maxlength="40" required>
-                
-          </div>
-           </div>
-
-           <div class="form-group">
-                <label ></label>
-                 <label for="productimage" class="col-sm-2 control-label">Body</label>
-                <div class="col-sm-10">
-                 <textarea rows="8"  class="form-control" placeholder="Edit Body"  name="body" id="body" cols="50" required>{{temp_edit.body}}</textarea>
-
-               </div>
-             </div>
-
-              <div class="form-group">
-              <label ></label>
-
-              <label for="quantity" class="col-sm-2 control-label">Link</label>
-
-              <div class="col-sm-10">
-                 <input type="text" value="{{temp_edit.link}}" class="form-control" placeholder=" Edit Subject"  name="link" id="link"required>
-                
-          </div>
-           </div>
+         <div class="form-group">
+          <label ></label>
+          <label for="productimage" class="col-sm-2 control-label">Name</label>
+          <div class="col-sm-10">
+           <input type="text" value="{{temp_edit.name}}" class="form-control" placeholder=" Edit Name"  name="name" id="name" maxlength="40" required>
+         </div>
        </div>
+
+       
+       <div class="form-group">
+        <label ></label>
+
+        <label for="quantity" class="col-sm-2 control-label">Subject</label>
+
+        <div class="col-sm-10">
+         <input type="text" value="{{temp_edit.subject}}" class="form-control" placeholder=" Edit Subject"  name="subject" id="subject"maxlength="40" required>
+         
+       </div>
+     </div>
+
+     <div class="form-group">
+      <label ></label>
+      <label for="productimage" class="col-sm-2 control-label">Body</label>
+      <div class="col-sm-10">
+       <textarea rows="8"  class="form-control" placeholder="Edit Body"  name="body" id="body" cols="50" required>{{temp_edit.body}}</textarea>
+
+     </div>
    </div>
+
+   
+   <div class="form-group weblink">
+    <label ></label>
+    <label for="quantity" class="col-sm-2 control-label">Web Link</label>
+    <div class="col-sm-10">
+      <input type="url" class="form-control" value="{{temp_edit.link}}" placeholder="Enter The Weblink Url"  name="link">
+    </div>
+  </div>
+
+  <div class="form-group weblink">
+    <label ></label>
+    <label for="quantity" class="col-sm-2 control-label">IOS Link</label>
+    <div class="col-sm-10">
+      <input type="url" class="form-control" value="{{temp_edit.ios_link}}"  placeholder="Enter The IOS store Url"  name="ios_link"  >
+    </div>
+  </div>
+
+
+  <div class="form-group weblink">
+    <label ></label>
+    <label for="quantity" class="col-sm-2 control-label">App Store Link</label>
+    <div class="col-sm-10">
+      <input type="url" class="form-control" value="{{temp_edit.apk_link}}"  placeholder="Enter The  Andriod Url"  name="app_link"  >
+    </div>
+  </div>
+</div>
+</div>
 <!-- /.box-body -->
 <div class="box-footer">
-  <button type="submit" class="btn btn-info pull-right">Edit Event</button>
+  <button type="submit" class="btn btn-info pull-right">Edit Template</button>
 </div>
 <!-- /.box-footer -->
 </form>

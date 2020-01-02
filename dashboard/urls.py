@@ -1,5 +1,6 @@
 from django.urls import path,include
 from dashboard import views
+
 app_name='dashboard'
 
 urlpatterns = [
@@ -29,13 +30,12 @@ urlpatterns = [
 	path('addtemplate/', views.add_template, name = 'addtemplate'),
 	path('edit-template/<int:pk>', views.edit_template, name = 'edit_template'),
 
-
 	path('file-object/<int:file_id>', views.file_object, name='file_object'),
 	path('object-add/', views.object_add, name= 'object_add'),
 	path('edit-object/<int:pk>', views.edit_object, name='edit_object'),
 
-	path('load', views.load, name= 'load'),
+	path('update',views.UpdateUser.as_view(),name="update"),
+	path('results/<int:prom_id>', views.results,name="results"),
+	path('template1', views.template1,name="template1")
 
-
-	
 ]

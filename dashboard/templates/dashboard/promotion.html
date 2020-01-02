@@ -44,7 +44,7 @@
                   <th>Templates</th>
                   
 
-                  <th>Send || Edit || Delete </th>
+                  <th>Send ||Status|| Edit || Delete </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -68,6 +68,10 @@
                  
                     <td>
                       <a href="{% url 'dashboard:mail' file_data.id %}"><button type="button" class="btn btn-primary"><i class="fa fa-send-o"></i></button> </a>
+
+                      <a href="{% url 'dashboard:results' file_data.id %}">
+                       <button type="button" class="btn btn-warning" ><i class="fa fa-check"></i></button>
+                     </a>
 
                       <a href="{% url 'dashboard:promotion_edit' file_data.id %}"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button> </a> <button type="button" value="{{file_data.id}}" data-toggle="modal" data-target="#modal-danger"  class="btn btn-danger" onclick= "deletebtn($(this))"><i class="fa fa-trash"></i></button>
                     </td>  
