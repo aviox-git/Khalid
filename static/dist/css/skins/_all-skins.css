@@ -43,7 +43,7 @@
   }
 }
 .skin-blue .main-header .logo {
-  background-color: #367fa9;
+background: linear-gradient(185deg, rgba(245,146,92,0.8743872549019608) 35%, rgba(255,255,255,1) 100%);
   color: #ffffff;
   border-bottom: 0 solid transparent;
 }
