@@ -25,6 +25,11 @@ from .serializers import PromotionSerialiser
 from django.contrib.auth.decorators import login_required
 from user_agents import parse
 from django.template import loader
+import ipinfo
+from django.db.models import Q
+
+
+access_token = 'dbeef9181999dc'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -468,43 +473,59 @@ def download(request,slug):
 	type_ = request.GET.get('type')
 	status_id = PromotionStatus.objects.get(id=slices)
 	status_id.status ="visited"
-
 	status_id.save()
+	handler = ipinfo.getHandler(access_token)
+	details = handler.getDetails()
 
 	user = UserStatus.objects.create(
 		promotion = status_id,
 		status = status_id.status, 
 		ip_address = request.META.get('REMOTE_ADDR'),
-		user_os = request.META.get('HTTP_USER_AGENT')
+		user_os = request.META.get('HTTP_USER_AGENT'),
 		)
-	user.save()
+	user.visited_info = json.dumps(details.all)
+	
 	if type_ == 'web':
+		user.request_type = 'web'
 		link = status_id.promotion.templates.link
 	elif type_ == 'ios':
+		user.request_type = 'ios'
 		link = status_id.promotion.templates.ios_link
 	elif type_ == 'apk':
+		user.request_type = 'apk'
 		link = status_id.promotion.templates.apk_link
+	user.save()
 	return HttpResponseRedirect(link)
 
 class UpdateUser(APIView):
 
 	def post(self,request):
-
-
+		print(request.data)
 		get_ip = request.META.get('REMOTE_ADDR')
 		get_from_post = request.POST.get('ip')
-		user_obj = UserStatus.objects.filter(ip_address = get_ip,status = 'visited').latest('-pk')
-		response = {}
-		if user_obj:
-			user = UserStatus.objects.create(
-			promotion = user_obj.promotion,
-			status = 'installed', 
-			ip_address = request.META.get('REMOTE_ADDR'),
-			user_os = request.META.get('HTTP_USER_AGENT')
-			)
-			user_obj.promotion.status = 'installed'
-			user_obj.promotion.save()
-			response['status'] = 200
+		device_info =  request.POST.get('device_info')
+		print(device_info)
+		try:
+			user_obj = UserStatus.objects.filter(Q(ip_address = get_ip , status = 'visited',mobile_info__isnull = True), (Q(request_type = 'ios')| Q(request_type = 'apk'))).latest('-pk')
+		except Exception as e:
+			user_obj = UserStatus.objects.filter(ip_address = get_ip , status = 'visited',mobile_info__isnull = True).latest('-pk')
+
+		finally:
+			response = {}
+			if user_obj:
+				user_obj.status = 'installed' 
+				user_obj.ip_address = request.META.get('REMOTE_ADDR')
+				handler = ipinfo.getHandler(access_token)
+				details = handler.getDetails()
+				details_dict = {}
+				details_dict.update(request.data)
+				details_dict.update(details.all)
+				user_obj.mobile_info = json.dumps(details_dict)
+				user_obj.promotion.status = 'installed'
+				user_obj.promotion.save()
+				user_obj.save()
+				response['status'] = 200
+		
 		return Response(response)
 
 @login_required

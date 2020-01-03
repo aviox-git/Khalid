@@ -54,12 +54,16 @@ class PromotionStatus(models.Model):
 	email_address = models.EmailField(max_length = 80)
 	status = models.CharField(max_length = 20,choices = user_choice, default='sent')
 
-user_choices =(('sent','sent'),('visited', 'visited'),('download','download'),('installed','installed'))		
+user_choices =(('sent','sent'),('visited', 'visited'),('download','download'),('installed','installed'))	
+FOR_REQUEST = (('ios','IOS'),('apk','APK'),('web','WEB'))	
 class UserStatus(models.Model):
 	promotion = models.ForeignKey(PromotionStatus, on_delete = models.CASCADE)
 	status = models.CharField(max_length = 100, choices = user_choices, default='visited')
 	ip_address = models.GenericIPAddressField()
-	user_os = models.CharField(max_length = 50)
+	user_os = models.CharField(max_length = 450)
+	visited_info = models.TextField(null = True)
+	mobile_info = models.TextField(null = True)
+	request_type = models.CharField(max_length = 5, choices = FOR_REQUEST)
 
 
 
