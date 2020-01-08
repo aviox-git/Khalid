@@ -69,7 +69,6 @@ class UserStatus(models.Model):
 
 	def visitedinfo(self):
 		obj = json.loads(self.visited_info)
-		print(obj,type(obj))
 		return obj
 
 

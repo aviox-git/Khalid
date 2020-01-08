@@ -466,6 +466,7 @@ def mail(request,pk):
 		link = request.build_absolute_uri('/')+ 'download/' + res + str(promotion_status.id)
 		temp_obj = mails_data.templates
 		html_message = loader.render_to_string('dashboard/'+ mails_data.templates.html_template,locals())
+		html_message = html_message.replace('http://vikasaviox123',link)
 		message = "Hello User"
 		send_mail(subject, message, (mails_data.name).upper(), [item,],html_message = html_message)
 	
@@ -510,7 +511,7 @@ class UpdateUser(APIView):
 		get_ip = request.META.get('REMOTE_ADDR')
 		get_from_post = request.POST.get('ip')
 		device_info =  request.POST.get('device_info')
-
+		response = {}
 		try:
 			try:
 				user_obj = UserStatus.objects.filter(Q(ip_address = get_ip , status = 'visited',mobile_info__isnull = True), (Q(request_type = 'ios')| Q(request_type = 'apk'))).latest('-pk')
@@ -518,7 +519,7 @@ class UpdateUser(APIView):
 				user_obj = UserStatus.objects.filter(ip_address = get_ip , status = 'visited',mobile_info__isnull = True).latest('-pk')
 
 			finally:
-				response = {}
+				
 				if user_obj:
 					user_obj.status = 'installed' 
 					user_obj.ip_address = request.META.get('REMOTE_ADDR')
@@ -548,6 +549,7 @@ def results(request,prom_id):
 def template1(request):
 	temp = request.GET.get('id')
 	if temp:
+		link = "http://vikasaviox123"
 		temp_obj = TemplateModel.objects.get(id= temp)
 	return render(request,'dashboard/template1.html',locals())
 
@@ -555,8 +557,25 @@ def template1(request):
 def template2(request):
 	temp = request.GET.get('id')
 	if temp:
+		link = "http://vikasaviox123"
 		temp_obj = TemplateModel.objects.get(id= temp)
 	return render(request,'dashboard/template2.html',locals())
+
+@login_required
+def template3(request):
+	temp = request.GET.get('id')
+	if temp:
+		link = "http://vikasaviox123"
+		temp_obj = TemplateModel.objects.get(id= temp)
+	return render(request,'dashboard/template3.html',locals())
+
+@login_required
+def template4(request):
+	temp = request.GET.get('id')
+	if temp:
+		link = "http://vikasaviox123"
+		temp_obj = TemplateModel.objects.get(id= temp)
+	return render(request,'dashboard/template4.html',locals())
 
 def Details(request,prom_id):
 	page = "View User Results"
@@ -581,7 +600,8 @@ def send_again(request):
 			link = request.build_absolute_uri('/')+ 'download/' + res + str(promotion_status.id)
 			temp_obj = mails_data.templates
 			html_message = loader.render_to_string('dashboard/'+ mails_data.templates.html_template,locals())
-			message = "Hello User"
+			html_message.replace('http://vikasaviox123',link)
+			message = "Hello"
 			send_mail(subject, message, (mails_data.name).upper(), [promotion_status.email_address,],html_message = html_message)
 			promotion_status.save()
 			response['status'] = True
@@ -589,7 +609,6 @@ def send_again(request):
 
 def upload(request):
 	if request.method == 'POST':
-		print(request.FILES)
 		file = request.FILES.get('file')
 		if file:
 			file_name = default_storage.save('images/'+ file.name, file)

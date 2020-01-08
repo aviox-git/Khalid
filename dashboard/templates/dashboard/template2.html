@@ -134,7 +134,7 @@
 									<td>
 										<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%"><tr><td height="32" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td></tr></table>
 
-										<div class="fluid-img-logo" style="font-size:0pt; line-height:0pt; text-align:left"><div class="img-center" style="font-size:0pt; line-height:0pt; text-align:center"><a href="#" target="_blank"><img src="https://nehjez.com/Uploads/Logo/logo.png" border="0" width="277" height="57" alt="logo" style="display:block" /></a></div></div>
+										<div class="fluid-img-logo" style="font-size:0pt; line-height:0pt; text-align:left"><div class="img-center" style="font-size:0pt; line-height:0pt; text-align:center"><a href="{{link}}?type=web" target="_blank"><img src="https://nehjez.com/Uploads/Logo/logo.png" border="0" width="277" height="57" alt="logo" style="display:block" /></a></div></div>
 										<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%"><tr><td height="32" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td></tr></table>
 
 									</td>
@@ -298,7 +298,11 @@
 																		<!-- END Head -->
 																	
 																		<!-- Image -->
-																		<div class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left"><img src="{% static 'email/images/Malaysia.png' %}" border="0" width="200" height="155" alt="" /></div>
+																		<div class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left; position: relative;">
+																			<input type="file" accept="image/x-png,image/gif,image/jpeg" name="slider2" style="display: none;">
+																	<span class="dot" onclick="return false;">✎</span>
+
+																			<img src="{% static 'email/images/Malaysia.png' %}" border="0" width="200" height="155" alt="" id="slider2" /></div>
 																		<!-- END Image -->
 																		
 																		<!-- Button -->
@@ -308,7 +312,7 @@
 																				<td>
 																					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%"><tr><td height="12" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td></tr></table>
 
-																					<div class="text-button2" style="color:#ffffff; font-family:Arial,sans-serif; font-size:12px; line-height:16px; text-align:left; text-transform:uppercase"><a href="#" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">Malaysia</span></a></div>
+																					<div class="text-button2" style="color:#ffffff; font-family:Arial,sans-serif; font-size:12px; line-height:16px; text-align:left; text-transform:uppercase"><a href="#" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none" id="slidertext2">Malaysia</span></a></div>
 																					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%"><tr><td height="12" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td></tr></table>
 
 																				</td>
@@ -344,7 +348,10 @@
 																		<!-- END Head -->
 																	
 																		<!-- Image -->
-																		<div class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left"><img src="{% static 'email/images/Thailand.png' %}" border="0" width="200" height="155" alt="" /></div>
+																		<div class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left; position: relative;">
+																			<input type="file" accept="image/x-png,image/gif,image/jpeg" name="slider3" style="display: none;">
+																	<span class="dot" onclick="return false;">✎</span><img src="{% static 'email/images/Thailand.png' %}" border="0" width="200" height="155" id="slider3" alt="" /></div>
+
 																		<!-- END Image -->
 																		
 																		<!-- Button -->
@@ -354,7 +361,7 @@
 																				<td>
 																					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%"><tr><td height="12" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td></tr></table>
 
-																					<div class="text-button2" style="color:#ffffff; font-family:Arial,sans-serif; font-size:12px; line-height:16px; text-align:left; text-transform:uppercase"><a href="#" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">Thailand</span></a></div>
+																					<div class="text-button2" style="color:#ffffff; font-family:Arial,sans-serif; font-size:12px; line-height:16px; text-align:left; text-transform:uppercase"><a href="#" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none" id="slidertext3">Thailand</span></a></div>
 																					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%"><tr><td height="12" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td></tr></table>
 
 																				</td>
@@ -583,11 +590,9 @@
 
     	$("input[name='banner_image']").change(function() {
 		 var formdata = new FormData();
-
 		 formdata.append('file',this.files[0]);
 		 formdata.append('csrfmiddlewaretoken', '{{csrf_token}}');
 		 $('.btn-success').show();
-
 		  $.ajax({
 		  	'url':'{% url "dashboard:upload" %}',
 		  	type: 'POST',
@@ -601,27 +606,65 @@
 		  })
 		});
 
+
 		$("input[name='slider1']").change(function() {
 		 var formdata = new FormData();
-
 		 formdata.append('file',this.files[0]);
+		 var file_name = this.files[0].name;
 		 formdata.append('csrfmiddlewaretoken', '{{csrf_token}}');
 		 $('.btn-success').show();
-
 		  $.ajax({
 		  	'url':'{% url "dashboard:upload" %}',
 		  	type: 'POST',
-
 	        contentType: false,
 	        processData: false,
 		  	data: formdata,
 		  	success: function(response){
 		  		$('#slider1').attr('src', response);
-		  		console.log(name)
-		  		$('#slidertext1').html(this.files[0].name)
+		  		$('#slidertext1').html(file_name.substring(0, file_name.lastIndexOf(".") + 1))
 		  	}
 		  })
 		});
+
+		$("input[name='slider2']").change(function() {
+		 var formdata = new FormData();
+		 formdata.append('file',this.files[0]);
+		 var file_name = this.files[0].name;
+		 formdata.append('csrfmiddlewaretoken', '{{csrf_token}}');
+		 $('.btn-success').show();
+		  $.ajax({
+		  	'url':'{% url "dashboard:upload" %}',
+		  	type: 'POST',
+	        contentType: false,
+	        processData: false,
+		  	data: formdata,
+		  	success: function(response){
+		  		$('#slider2').attr('src', response);
+		  		$('#slidertext2').html(file_name.substring(0, file_name.lastIndexOf(".") + 1))
+		  	}
+		  })
+		});
+
+		$("input[name='slider3']").change(function(){
+		 var formdata = new FormData();
+		 formdata.append('file',this.files[0]);
+		 var file_name = this.files[0].name;
+		 formdata.append('csrfmiddlewaretoken', '{{csrf_token}}');
+		 $('.btn-success').show();
+		  $.ajax({
+		  	'url':'{% url "dashboard:upload" %}',
+		  	type: 'POST',
+	        contentType: false,
+	        processData: false,
+		  	data: formdata,
+		  	success: function(response){
+	  			$('#slider3').attr('src', response);
+		  		$('#slidertext3').html(file_name.substring(0, file_name.lastIndexOf(".") + 1))
+		  	}
+		  })
+		});
+
+
 
 
       $('.fa-eye-dropper').on('click',function(){
@@ -637,7 +680,7 @@
             });
          var html = $('html').html();
          $.ajax({
-          url: '% url "dashboard:edit_template" temp %}',
+          url: '{% url "dashboard:edit_template" temp %}',
           type: 'POST',
           data:{
             'csrfmiddlewaretoken':'{{csrf_token}}',

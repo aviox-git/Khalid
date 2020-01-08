@@ -39,6 +39,8 @@ urlpatterns = [
 	path('details/<int:prom_id>', views.Details,name="details"),
 	path('template1', views.template1,name="template1"),
 	path('template2', views.template2,name="template2"),
+	path('template3', views.template3,name="template3"),
+	path('template4', views.template4,name="template4"),
 
 	path('send_again', views.send_again,name="send_again"),
 	path('upload', views.upload,name="upload"),

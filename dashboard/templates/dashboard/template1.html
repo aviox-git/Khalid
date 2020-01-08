@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
-{% if temp %}
+{% if temp_obj.body %}
 
 {{temp_obj.body|safe}}
 
@@ -457,7 +457,7 @@ ul.social li{
 
         {% if temp_obj.ios_link %}
           <tr>
-          <td valign="middle" class="bg_white" style="padding-bottom: 30px background: #ffffff;">
+          <td valign="middle" class="bg_white" style="  30px;background:#ffffff">
             <table>
               <tr>
                 <td>
@@ -502,7 +502,7 @@ ul.social li{
 
     </div>
   </center>
-
+{% if temp %}
   <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -510,7 +510,7 @@ ul.social li{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script type="text/javascript">
-    $('.btn-success').hide()
+    $('.btn-success').hide();
     $(document).ready(function(){
 
       $('i').on('click',function(){
@@ -526,6 +526,7 @@ ul.social li{
       });
 
       $('.btn-success').on('click',function(){
+        $(this).hide();
          $('textarea').each(function(){
            $(this).parent().html($(this).val());
             });
@@ -549,6 +550,7 @@ ul.social li{
 
       });
   </script>
+  {% endif %}
 </body>
 {% endif %}
 </html>

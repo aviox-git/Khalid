@@ -1,0 +1,490 @@
+{% load static %}
+{% if temp_obj.body %}
+
+{{temp_obj.body|safe}}
+
+{% else %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+	<!--[if gte mso 9]>
+	<xml>
+		<o:OfficeDocumentSettings>
+		<o:AllowPNG/>
+		<o:PixelsPerInch>96</o:PixelsPerInch>
+		</o:OfficeDocumentSettings>
+	</xml>
+	<![endif]-->
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="format-detection" content="date=no" />
+	<meta name="format-detection" content="address=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="x-apple-disable-message-reformatting" />
+    <!--[if !mso]><!-->
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet" />
+    <!--<![endif]-->
+	<title>Email Template</title>
+	<!--[if gte mso 9]>
+	<style type="text/css" media="all">
+		sup { font-size: 100% !important; }
+	</style>
+	<![endif]-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/88f7629ccf.js" crossorigin="anonymous"></script>
+	
+
+	<style type="text/css" media="screen">
+
+		.dot{
+					height: 50px;
+				    width: 50px;
+				    background-color: #bbb;
+				    border-radius: 50%;
+				    display: inline-block;
+				    position: absolute;
+				    right: 30%;
+				    color: black;
+				    font-size: 28px;
+				    text-align: center;
+				    line-height: 50px;
+				        cursor: pointer;
+			}
+
+		/* Linked Styles */
+		body { padding:0 !important; margin:0 !important; display:block !important; min-width:100% !important; width:100% !important; background:#ffffff; -webkit-text-size-adjust:none }
+		a { color:#888888; text-decoration:none }
+		p { padding:0 !important; margin:0 !important } 
+		img { -ms-interpolation-mode: bicubic; /* Allow smoother rendering of resized image in Internet Explorer */ }
+		.mcnPreviewText { display: none !important; }
+
+				
+		/* Mobile styles */
+		@media only screen and (max-device-width: 480px), only screen and (max-width: 480px) {
+			u + .body .gwfw { width:100% !important; width:100vw !important; }
+
+			.m-shell { width: 100% !important; min-width: 100% !important; }
+			
+			.m-center { text-align: center !important; }
+			
+			.center { margin: 0 auto !important; }
+			
+			.td { width: 100% !important; min-width: 100% !important; }
+
+			.m-br-15 { height: 15px !important; }
+			.p30-15 { padding: 30px 15px !important; }
+			.pb40 { padding-bottom: 40px !important; }
+
+			.m-td,
+			.m-hide { display: none !important; width: 0 !important; height: 0 !important; font-size: 0 !important; line-height: 0 !important; min-height: 0 !important; }
+
+			.m-block { display: block !important; }
+
+			.fluid-img img { width: 100% !important; max-width: 100% !important; height: auto !important; }
+
+			.column,
+			.column-top,
+			.column-dir,
+			.column-dir-top,
+			.column-dir-bottom { float: left !important; width: 100% !important; display: block !important; }
+
+			.content-spacing { width: 15px !important; }
+		}
+	</style>
+</head>
+<body class="body" style="padding:0 !important; margin:0 !important; display:block !important; min-width:100% !important; width:100% !important; background:#ffffff; -webkit-text-size-adjust:none;">
+	<button type="submit" class="btn btn-success" style="  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 50%; float: right;">Save</button>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" class="gwfw">
+		<tr>
+			<td align="center" valign="top">
+				<!-- Header -->
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td align="center" style="padding: 45px 0px 60px 0px;" class="p30-15">
+							<!-- Shell -->
+							<table width="650" border="0" cellspacing="0" cellpadding="0" class="m-shell">
+								<tr>
+									<td class="td" style="width:650px; min-width:650px; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+											<tr>
+												<th class="column-top" width="204" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
+													<table width="100%" border="0" cellspacing="0" cellpadding="0">
+														<tr>
+															<td class="img m-center" style="font-size:0pt; line-height:0pt; text-align:left;">
+
+																<a href="#" target="_blank"><img src="{% static 'email/template4/logo.webp' %}" width="204" height="51" border="0" alt="" /></a></td>
+														</tr>
+													</table>
+												</th>
+												<th style="padding-bottom: 20px !important; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;" class="column" width="1"></th>
+												<th class="column" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">
+													<table width="100%" border="0" cellspacing="0" cellpadding="0">
+														<tr>
+															<td class="text-top m-center" style="color:#888888; font-family:'Poppins', Arial, sans-serif; font-size:12px; line-height:16px; text-align:right; min-width:auto !important;"><a href="{{link}}?type=web" target="_blank" class="link-grey"><span class="link-grey">Visit Now</span></a></td>
+														</tr>
+													</table>
+												</th>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							<!-- END Shell -->
+						</td>
+					</tr>
+				</table>
+				<!-- END Header -->
+
+				<!-- Intro -->
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#f4f4f4">
+					<tr>
+						<td valign="top" class="m-td" style="font-size:0pt; line-height:0pt; text-align:left;"><table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" class="border" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%;"><tr><td bgcolor="#ffffff" height="280" class="border" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%;">&nbsp;</td></tr></table>
+</td>
+						<td valign="top" align="center" width="650" class="m-shell">
+							<!-- Shell -->
+							<table width="650" border="0" cellspacing="0" cellpadding="0" class="m-shell">
+								<tr>
+									<td class="td" style="width:650px; min-width:650px; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+											<tr>
+												<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left;">
+													<input type="file" accept="image/x-png,image/gif,image/jpeg" name="banner_image" style="display: none;">
+													<span class="dot"> &#9998;</span>
+													<img src="{% static 'email/template4/Origin_1.webp' %}" width="650" height="366" border="0" alt="" id="banner_image"/></td>
+											</tr>
+											<tr>
+												<td class="p30-15" style="padding: 70px 30px;" bgcolor="#f4f4f4">
+													<table width="100%" border="0" cellspacing="0" cellpadding="0">
+														<tr>
+															<td><i class="fas fa-eye-dropper" style="font-size: 15px;"></i></td>
+															</tr>
+
+														<tr>
+															<td class="h2 center header_" style="padding-bottom: 20px; color:#000000; font-family:'Poppins', Arial, sans-serif; font-size:36px; line-height:46px; font-weight:300; text-align:center;"><!-- <span class="purple" style="color:#7676ff;"> </span> -->ABOUT NEHJEZ</td>
+														</tr>
+														<tr>
+															<td class="text center info_txt" style="color:#666666; font-family:Arial, sans-serif; font-size:16px; line-height:30px; min-width:auto !important; text-align:center;">NEHJEZ is online booking following to Abdul Mohsen Hamad Al Khalaf Sons Company, which works in the field of travel and tourism in the Kingdom of  Saudi Arabia.</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									<td>
+								</tr>
+							</table>
+							<!-- END Shell -->
+						</td>
+						<td valign="top" class="m-td" style="font-size:0pt; line-height:0pt; text-align:left;"><table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" class="border" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%;"><tr><td bgcolor="#ffffff" height="280" class="border" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%;">&nbsp;</td></tr></table>
+</td>
+					</tr>
+				</table>
+				<!-- END Intro -->
+
+				<!-- Articles -->
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td align="center" bgcolor="#ffffff" style="padding: 80px 0px;" class="p30-15">
+							<!-- Shell -->
+							<table width="650" border="0" cellspacing="0" cellpadding="0" class="m-shell">
+								<tr>
+									<td class="td" style="width:650px; min-width:650px; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+											<tr>
+												<td style="padding-bottom: 80px;" class="pb40">
+													<table width="100%" border="0" cellspacing="0" cellpadding="0">
+														<tr>
+															<th class="column-top" width="325" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
+																<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+																	<tr>
+																		<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left;     position: relative;">
+																			<input type="file" accept="image/x-png,image/gif,image/jpeg" name="slider1" style="display: none;">
+													<span class="dot"> &#9998;</span>
+													<img src="{% static 'email/template4/Indonesia.png' %}" id="slider1" width="325" height="244" border="0" alt="" /></td>
+																	</tr>
+																</table>
+															</th>
+															<th style="padding-bottom:20px !important; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;" class="column" width="35"></th>
+															<th class="column" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">
+																<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																	<tr><td><i class="fas fa-eye-dropper" style="font-size: 15px;" aria-hidden="true"></i></td></tr>
+																	<tr>
+																		<td class="h3 header_" style="padding-bottom: 22px; color:#000000; font-family:'Poppins', Arial, sans-serif; font-size:32px; line-height:36px; text-align:left; font-weight:300;">Indonesia</td>
+																	</tr>
+																	<tr>
+																		<td class="text info_txt" style="padding-bottom: 22px; color:#666666; font-family:Arial, sans-serif; font-size:16px; line-height:30px; text-align:left; min-width:auto !important;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</td>
+																	</tr>
+																	<tr>
+																		<td align="left">
+																			<table border="0" cellspacing="0" cellpadding="0">
+																				<tr>
+																					<td class="text-button" style="color:#ffffff; background: #d03326; border-radius:22px; font-family:'Poppins', Arial, sans-serif; font-size:14px; line-height:18px; text-align:center; font-weight:500; padding:12px 25px;"><a href="{{link}}?type=web" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none;"><span class="link-white" style="color:#ffffff; text-decoration:none;"> VIEW ALL TOURS</span></a></td>
+																				</tr>
+																			</table>
+																		</td>
+																	</tr>
+																</table>
+															</th>
+														</tr>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<table width="100%" border="0" cellspacing="0" cellpadding="0" dir="rtl" style="direction: rtl;">
+														<tr>
+															<th class="column-dir-top" dir="ltr" width="325" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; direction:ltr; vertical-align:top;">
+																<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																	<tr>
+																		<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left;">
+																			<input type="file" accept="image/x-png,image/gif,image/jpeg" name="slider2" style="display: none;">
+													<span class="dot"> &#9998;</span><img src="{% static 'email/template4//Thailand.png' %}" width="325" height="244" border="0" alt="" id="slider2"/></td>
+
+																	</tr>
+																</table>
+															</th>
+															<th style="padding-bottom:20px !important; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;" class="column" width="35"></th>
+															<th class="column-dir-top" dir="ltr" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; direction:ltr; vertical-align:top;">
+																<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																	<tr><td><i class="fas fa-eye-dropper" style="font-size: 15px;" aria-hidden="true"></i></td></tr>
+																	<tr>
+																		<td class="h3 header_" style="padding-bottom: 22px; color:#000000; font-family:'Poppins', Arial, sans-serif; font-size:32px; line-height:36px; text-align:left; font-weight:300;">Thailand</td>
+																	</tr>
+																	<tr>
+																		<td class="text info_txt" style="padding-bottom: 22px; color:#666666; font-family:Arial, sans-serif; font-size:16px; line-height:30px; text-align:left; min-width:auto !important;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</td>
+																	</tr>
+																	<tr>
+																		<td align="left">
+																			<table border="0" cellspacing="0" cellpadding="0">
+																				<tr>
+																					<td class="text-button" style="color:#ffffff; background:#d03326; border-radius:22px; font-family:'Poppins', Arial, sans-serif; font-size:14px; line-height:18px; text-align:center; font-weight:500; padding:12px 25px;"><a href="{{link}}?type=web" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none;"><span class="link-white" style="color:#ffffff; text-decoration:none;"> VIEW ALL TOURS</span></a></td>
+																				</tr>
+																			</table>
+																		</td>
+																	</tr>
+																</table>
+															</th>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							<!-- END Shell -->
+						</td>
+					</tr>
+				</table>
+				<!-- END Articles -->
+
+
+				<!-- CTA -->
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td align="center" bgcolor="#d03326" style="padding: 40px 0px 0px;" class="p30-15">
+							<!-- Shell -->
+							<table width="650" border="0" cellspacing="0" cellpadding="0" class="m-shell">
+								
+														<tbody>
+															
+
+															<tr>
+															<th class="column-top" width="291" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
+																<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																	<tbody><tr>
+																		<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left;"><img src="{% static 'email/template4/app-img.webp' %}" border="0" alt=""></td>
+																	</tr>
+																</tbody></table>
+															</th>
+															<th style="padding-bottom:20px !important; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;" class="column" width="35"></th>
+															<th class="column" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">
+																<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																	<tbody><tr>
+																		<td colspan="2" class="h3" style="padding-bottom: 22px; color:#ffffff; font-family:'Poppins', Arial, sans-serif; font-size:26px; line-height:36px; text-align:left; font-weight:400;">Search Best Deals On Go</td>
+																	</tr>
+																	<tr>
+																		<td>
+																					<a href="{{link}}?type=apk" target="_blank"><img src="{% static 'email/template4//android-btn.webp' %}" border="0" width="10" height="auto" alt="" style="width: 150px; margin-right: 12px;"></a>
+																				</td>
+																				<td>
+																					<a href="{{link}}?type=ios"
+																					target="_blank"><img src="{% static 'email/template4/aple-btn.webp' %}" border="0" width="10" height="auto" alt="" style="width: 150px; margin-right: 12px;"></a>
+																				</td>
+																	</tr>
+																	
+																</tbody></table>
+															</th>
+														</tr>
+													</tbody>
+							</table>
+							<!-- END Shell -->
+						</td>
+					</tr>
+				</table>
+				<!-- END CTA -->
+
+				<!-- Footer -->
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td align="center" bgcolor="#ffffff" style="padding: 60px 0px;" class="p30-15">
+							<!-- Shell -->
+							<table width="650" border="0" cellspacing="0" cellpadding="0" class="m-shell">
+								<tr>
+									<td class="td" style="width:650px; min-width:650px; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+											<tr>
+												<td align="center" style="padding-bottom: 35px;">
+													<table class="center" border="0" cellspacing="0" cellpadding="0" style="text-align:center;">
+														<tr>
+															<td class="img" width="55" style="font-size:0pt; line-height:0pt; text-align:left;"><a href="https://www.facebook.com/Nehjez/" target="_blank"><img src="{% static 'email/template4/ico_facebook.jpg' %}" width="34" height="34" border="0" alt="" /></a></td>
+															<td class="img" width="55" style="font-size:0pt; line-height:0pt; text-align:left;"><a href="https://twitter.com/nehjez" target="_blank"><img src="{% static 'email/template4/ico_twitter.jpg' %}" width="34" height="34" border="0" alt="" /></a></td>
+															<td class="img" width="55" style="font-size:0pt; line-height:0pt; text-align:left;"><a href="https://www.instagram.com/nehjez/" target="_blank"><img src="{% static 'email/template4/ico_instagram.jpg' %} " width="34" height="34" border="0" alt="" /></a></td>
+															<td class="img" width="34" style="font-size:0pt; line-height:0pt; text-align:left;"><a href="https://www.linkedin.com/" target="_blank"><img src="{% static 'email/template4//ico_linkedin.jpg' %}" width="34" height="34" border="0" alt="" /></a></td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td class="text-footer" style="padding-bottom: 15px; color:#666666; font-family:Arial, sans-serif; font-size:14px; line-height:18px; text-align:center; min-width:auto !important;">Nehjez Travel</td>
+											</tr>
+											<tr>
+												<td class="text-footer2" style="color:#666666; font-family:Arial, sans-serif; font-size:12px; line-height:16px; text-align:center; min-width:auto !important;">Copyright © 2012 - 2019 Nehjez Travel Online. All Rights Reserved. | Powered by <span><img src="images/x-iocn.webp" width="12" height="12" border="0" alt="" /></span></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							<!-- END Shell -->
+						</td>
+					</tr>
+				</table>
+				<!-- END Footer -->
+
+
+			</td>
+		</tr>
+	</table>
+{% if temp %}
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+		$('.dot').show();
+		$('.fa-eye-dropper').show();
+	$('.fa-eye-dropper').on('click',function(){
+		$('.btn-success').show();
+		$(this).hide();
+		$(this).closest('table').find('.header_').html(`<input class="form-control" type="text" value="${$(this).closest('table').find('.header_').text()
+		}">`);
+		$(this).closest('table').find('.info_txt').html(`<textarea class="form-control" cols='10' rows="10">${$(this).closest('table').find('.info_txt').text()}</textarea>`);
+	});
+
+	$('.dot').on('click',function(){
+		$(this).parent().find('input[type="file"]').click();
+	});
+
+	$("input[name='slider1']").change(function(){
+		 $('.btn-success').show();
+		 var formdata = new FormData();
+		 formdata.append('file',this.files[0]);
+		 var file_name = this.files[0].name;
+		 formdata.append('csrfmiddlewaretoken', '{{csrf_token}}');
+		  $.ajax({
+		  	'url':'{% url "dashboard:upload" %}',
+		  	type: 'POST',
+	        contentType: false,
+	        processData: false,
+		  	data: formdata,
+		  	success: function(response){
+		  		$('#slider1').attr('src',response);
+	  			
+				}
+		  })
+		});
+
+	$("input[name='slider2']").change(function(){
+		 var formdata = new FormData();
+		  $('.btn-success').show();
+		 formdata.append('file',this.files[0]);
+		 var file_name = this.files[0].name;
+		 formdata.append('csrfmiddlewaretoken', '{{csrf_token}}');
+		 $('.btn-success').show();
+		  $.ajax({
+		  	'url':'{% url "dashboard:upload" %}',
+		  	type: 'POST',
+	        contentType: false,
+	        processData: false,
+		  	data: formdata,
+		  	success: function(response){
+		  		$('#slider2').attr('src',response);
+	  			
+				}
+		  })
+		});
+
+	$("input[name='banner_image']").change(function(){
+		 $('.btn-success').show();
+		 var formdata = new FormData();
+		 formdata.append('file',this.files[0]);
+		 var file_name = this.files[0].name;
+		 formdata.append('csrfmiddlewaretoken', '{{csrf_token}}');
+		 $('.btn-success').show();
+		  $.ajax({
+		  	'url':'{% url "dashboard:upload" %}',
+		  	type: 'POST',
+	        contentType: false,
+	        processData: false,
+		  	data: formdata,
+		  	success: function(response){
+		  		$('#banner_image').attr('src',response);
+	  			
+				}
+		  })
+		});
+
+	
+	 $('.btn-success').on('click',function(){
+         $('textarea').each(function(){
+           $(this).parent().html($(this).val());
+            });
+
+          $('input[type="text"]').each(function(){
+           $(this).parent().html($(this).val());
+            });
+
+		$('.dot').hide();
+		$(this).hide();
+		$('.fa-eye-dropper').hide();
+         var html = $('html').html();
+         $.ajax({
+          url: '{% url "dashboard:edit_template" temp %}',
+          type: 'POST',
+          data:{
+            'csrfmiddlewaretoken':'{{csrf_token}}',
+            'html':html,
+            'ajax': true
+          },
+          success: function(response){
+            $('.btn-success').hide()
+            window.location.reload();
+          }
+         });
+        });
+
+
+	 $('.btn-success').hide();
+
+</script>
+	{% endif %}
+</body>
+{% endif %}
+</html>
