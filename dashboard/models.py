@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
+import json
 
 
 class Departments(models.Model):
@@ -31,10 +32,11 @@ class FileOjectModel(models.Model):
 class TemplateModel(models.Model):
 	name = models.CharField(max_length=40,blank = False)
 	subject = models.CharField(max_length=100)
-	body = models.TextField()
+	body = models.TextField(blank = True,null = True)
 	link = models.URLField(max_length=100,null = True,blank = True)
 	apk_link = models.URLField(max_length=100,null = True,blank = True)
 	ios_link = models.URLField(max_length=100,null = True,blank = True)
+	html_template = models.CharField(max_length = 200, default = 'template1.html')
 
 	def __str__(self):
 		return self.name
@@ -64,6 +66,11 @@ class UserStatus(models.Model):
 	visited_info = models.TextField(null = True)
 	mobile_info = models.TextField(null = True)
 	request_type = models.CharField(max_length = 5, choices = FOR_REQUEST)
+
+	def visitedinfo(self):
+		obj = json.loads(self.visited_info)
+		print(obj,type(obj))
+		return obj
 
 
 

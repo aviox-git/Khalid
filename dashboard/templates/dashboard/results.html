@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %} Promotion {% endblock %}
 {% block head %}
+<link rel="stylesheet" type="text/css" href="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.10/css/dataTables.checkboxes.css">
 
  <style>
     .example-modal .modal {
@@ -16,6 +17,53 @@
     .example-modal .modal {
       background: transparent !important;
     }
+    .loader {
+          background-color: rgba(0, 0, 0, 0.4) !important;
+   bottom: 0;
+   text-align: center;
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   z-index: 999999;
+    }
+
+    .loader .lds-hourglass {
+  display: inline-block;
+  /*position: relative;*/
+  width: 80px;
+  height: 80px;
+  z-index: 999999;
+   position: absolute;
+   transform: translate(-50%, -50%);
+   top: 50%;
+   left: 50%;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 8px;
+  box-sizing: border-box;
+  border: 32px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
   </style>
 {% endblock %}
 {% block content %}
@@ -32,22 +80,28 @@
 
             <!-- /.box-header -->
             <div class="box-body">
-              <table class="table table-bordered table-striped datatable">
+              <table class="table table-bordered table-striped example">
                 <thead>
                 <tr>
-                  <th><input type="checkbox" name="select_all" ></th>
+                  <th></th>
                   <th>Email</th>
                   <th>Status</th>
+                  <th>Result</th>
                 </tr>
                 </thead>
                 <tbody>
                 	{% for proms in promotions %}
-                <tr>
-                  <td><input type="checkbox" name="select" value='{{proms.id}}'></td>
+                <tr data-id="{{proms.id}}">
+                  <td></td>
 
                   <td>{{proms.email_address}}</td>
                   <td>
                     {{proms.status|title}}
+                  </td>
+                  <td>
+                    <a href="{% url 'dashboard:details' proms.id %}">
+                   <button class="btn btn-warning">View</button>
+                 </a>
                   </td>
                   	
                 </tr>
@@ -57,9 +111,10 @@
                 <tfoot>
                  <thead>
                 <tr>
-                  <th><input type="checkbox" name="select_all" ></th>
+                  <th style="text-align: center;"><button class="btn btn-success">Send Again</button></th>
                   <th>Email</th>
                   <th>Status</th>
+                  <th>Result</th>
                 </tr>
                 </thead>
                 </tfoot>
@@ -106,9 +161,72 @@
       <!-- /.row -->
     </section>
 
-
 {% endblock %}
 {% block js %}
+<script src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.10/js/dataTables.checkboxes.min.js"></script>
+<script type="text/javascript">
 
+  var table = $('.example').DataTable({
+    'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false,     
+      'columnDefs': [
+         {
+            'targets': 0,
+            'checkboxes': {
+               'selectRow': true
+            }
+         }
+      ],
+      'select': {
+         'style': 'multi'
+      }
+   });
 
+  $('.btn-success').on('click',function() {
+
+    $('.loader').show();
+    var rows = $(table.rows({
+            selected: true
+        }).$('input[type="checkbox"]').map(function() {
+            return $(this).prop("checked") ? $(this).closest('tr').attr('data-id') : null;
+        }));
+
+    var row_list = [] 
+      $.each(rows, function(index, rowId){
+        row_list.push (rowId);
+      });
+
+    var url = '{% url "dashboard:send_again" %}';
+    console.log(url)
+    if (row_list.length > 0){
+      console.log(row_list)
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data:{
+          'csrfmiddlewaretoken': '{{csrf_token}}',
+          'data_ids': row_list,
+          'promotion_id': '{{promotion_id}}',
+        },
+        success: function(response){
+          if(response.status == true){
+             $('.loader').hide();
+            window.location.reload();
+          }
+        },
+        error: function(response){
+          console.log(response);
+        }
+
+      });
+    }
+ 
+  });
+  
+
+</script>
 {% endblock %}

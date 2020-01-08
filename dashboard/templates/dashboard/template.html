@@ -41,7 +41,7 @@
                   <th>Sr No.</th>
                   <th>Name</th>
                   <th>Subject</th>
-                  <th>Body</th>
+                  <!-- <th>Body</th> -->
                   <th>Preview</th>
 
                   <th>Edit </th>
@@ -53,14 +53,19 @@
                 	<td>{{ forloop.counter }}</td>
                   <td>{{temp_data.name}}</td>
                   <td>{{temp_data.subject}}</td>
-                  <td>{{temp_data.body}}</td>
+                  <!-- <td>{{temp_data.body}}</td> -->
                   <td>
-                    <a href="{% url 'dashboard:template1' %}?id={{temp_data.id}}" target="_blank">
+
+                     <a href="/dashboard/{{temp_data.html_template|slice:':-5'}}?id={{temp_data.id}}" target="_blank">
                     <button class="btn btn-warning"><i class="fa fa-eye"></i></button>
                    </a>
+                    
                   </td>
                  
-                    <td><a href="{% url 'dashboard:edit_template' temp_data.id %}"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button> </a> 
+                    <td>
+                     
+                      <a href="{% url 'dashboard:edit_template' temp_data.id %}"><button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button> </a> 
+
                       <!-- <button type="button" value="{{temp_data.id}}" data-toggle="modal" data-target="#modal-danger"  class="btn btn-danger" onclick= "deletebtn($(this))"><i class="fa fa-trash"></i></button> -->
                     </td>  
                 </tr>
@@ -72,7 +77,7 @@
                  <th>Sr No.</th>
                   <th>Name</th>
                   <th>Subject</th>
-                  <th>Body</th>
+                  <!-- <th>Body</th> -->
                   <th>Preview</th>
                   <th>Edit  </th>
                 </tr>

@@ -1,16 +1,23 @@
-
-  
+{% load static %}
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+
+{% if temp %}
+
+{{temp_obj.body|safe}}
+
+{% else %}
+
 <head>
     <meta charset="utf-8"> <!-- utf-8 works for most cases -->
     <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
     <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
     <title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/88f7629ccf.js" crossorigin="anonymous"></script>
 
     <!-- CSS Reset : BEGIN -->
     <style>
@@ -364,12 +371,17 @@ ul.social li{
 </head>
 
 <body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #222222;">
+
   <center style="width: 100%; background-color: #f1f1f1;">
+              <button type="submit" class="btn btn-success" style="  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 50%; float: right;">Save</button>
     <div style="display: none; font-size: 1px;max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
       &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
     </div>
     <div style="max-width: 600px; margin: 0 auto;" class="email-container">
       <!-- BEGIN BODY -->
+
       <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
         <tr>
           <td valign="top" class="bg_white" style="padding: 1em 2.5em 0 2.5em;">
@@ -390,13 +402,10 @@ ul.social li{
               <tr>
                 <td>
                   <div class="text" style="padding: 0 2.5em; text-align: center;">
-                    {% if temp_obj %}
-                    {{temp_obj.body|safe}}
-                    {% else %}
+                    <i class="fas fa-eye-dropper" style="font-size: 15px;"></i>
 
-                    <h2>Fashion your self this season</h2>
+                    <h2> Fashion your self this season</h2>
                     <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-                    {% endif %}
                   </div>
                 </td>
               </tr>
@@ -493,6 +502,54 @@ ul.social li{
 
     </div>
   </center>
+
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    $('.btn-success').hide()
+    $(document).ready(function(){
+
+      $('i').on('click',function(){
+        var target = $(this).parent().children().not(this);
+
+        $(target).each(function(){
+         var value = $(this).html();
+        var textarea = `<textarea class="form-control" cols="50" >${value}</textarea>`;
+        $(this).html(textarea);
+        });
+
+        $('.btn-success').show();
+      });
+
+      $('.btn-success').on('click',function(){
+         $('textarea').each(function(){
+           $(this).parent().html($(this).val());
+            });
+         var html = $('html').html();
+         $.ajax({
+          url: '{% url "dashboard:edit_template" temp %}',
+          type: 'POST',
+          data:{
+            'csrfmiddlewaretoken':'{{csrf_token}}',
+            'html':html,
+            'ajax': true
+          },
+          success: function(response){
+            $('.btn-success').hide()
+            console.log(response);
+          }
+         })
+        });
+        // var html = $('html').html();
+
+
+      });
+  </script>
 </body>
+{% endif %}
 </html>
 

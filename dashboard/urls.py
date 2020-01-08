@@ -36,6 +36,10 @@ urlpatterns = [
 
 	path('update',views.UpdateUser.as_view(),name="update"),
 	path('results/<int:prom_id>', views.results,name="results"),
-	path('template1', views.template1,name="template1")
+	path('details/<int:prom_id>', views.Details,name="details"),
+	path('template1', views.template1,name="template1"),
+	path('template2', views.template2,name="template2"),
 
+	path('send_again', views.send_again,name="send_again"),
+	path('upload', views.upload,name="upload"),
 ]

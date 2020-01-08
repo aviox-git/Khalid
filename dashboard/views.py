@@ -14,7 +14,6 @@ import xlrd
 from django.template import RequestContext
 from Khalid.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
-from django.core import mail
 import string 
 import random
 import json
@@ -27,6 +26,7 @@ from user_agents import parse
 from django.template import loader
 import ipinfo
 from django.db.models import Q
+from django.core.files.storage import default_storage
 
 
 access_token = 'dbeef9181999dc'
@@ -378,10 +378,16 @@ def edit_template(request,pk):
 		link = request.POST.get('link')
 		apk_link = request.POST.get('app_link')
 		ios_link = request.POST.get('ios_link')
+		ajax = request.POST.get('ajax')
+
+		if ajax:
+			html = request.POST.get('html')
+			temp_edit.body = html
+			temp_edit.save()
+			return HttpResponse({})
 
 		temp_edit.name = name
 		temp_edit.subject = subject
-		temp_edit.body = body
 		temp_edit.link = link
 		temp_edit.apk_link = apk_link
 		temp_edit.ios_link = ios_link
@@ -459,8 +465,8 @@ def mail(request,pk):
 		promotion_status.save()
 		link = request.build_absolute_uri('/')+ 'download/' + res + str(promotion_status.id)
 		temp_obj = mails_data.templates
-		html_message = loader.render_to_string('dashboard/tempalte1.html',locals())
-		message = " Hello User"
+		html_message = loader.render_to_string('dashboard/'+ mails_data.templates.html_template,locals())
+		message = "Hello User"
 		send_mail(subject, message, (mails_data.name).upper(), [item,],html_message = html_message)
 	
 	messages.success(request,"Email sent successfully")
@@ -500,37 +506,41 @@ def download(request,slug):
 class UpdateUser(APIView):
 
 	def post(self,request):
-		print(request.data)
+
 		get_ip = request.META.get('REMOTE_ADDR')
 		get_from_post = request.POST.get('ip')
 		device_info =  request.POST.get('device_info')
-		print(device_info)
-		try:
-			user_obj = UserStatus.objects.filter(Q(ip_address = get_ip , status = 'visited',mobile_info__isnull = True), (Q(request_type = 'ios')| Q(request_type = 'apk'))).latest('-pk')
-		except Exception as e:
-			user_obj = UserStatus.objects.filter(ip_address = get_ip , status = 'visited',mobile_info__isnull = True).latest('-pk')
 
-		finally:
-			response = {}
-			if user_obj:
-				user_obj.status = 'installed' 
-				user_obj.ip_address = request.META.get('REMOTE_ADDR')
-				handler = ipinfo.getHandler(access_token)
-				details = handler.getDetails()
-				details_dict = {}
-				details_dict.update(request.data)
-				details_dict.update(details.all)
-				user_obj.mobile_info = json.dumps(details_dict)
-				user_obj.promotion.status = 'installed'
-				user_obj.promotion.save()
-				user_obj.save()
-				response['status'] = 200
-		
+		try:
+			try:
+				user_obj = UserStatus.objects.filter(Q(ip_address = get_ip , status = 'visited',mobile_info__isnull = True), (Q(request_type = 'ios')| Q(request_type = 'apk'))).latest('-pk')
+			except Exception as e:
+				user_obj = UserStatus.objects.filter(ip_address = get_ip , status = 'visited',mobile_info__isnull = True).latest('-pk')
+
+			finally:
+				response = {}
+				if user_obj:
+					user_obj.status = 'installed' 
+					user_obj.ip_address = request.META.get('REMOTE_ADDR')
+					handler = ipinfo.getHandler(access_token)
+					details = handler.getDetails()
+					details_dict = {}
+					details_dict.update(request.data)
+					details_dict.update(details.all)
+					user_obj.mobile_info = json.dumps(details_dict)
+					user_obj.promotion.status = 'installed'
+					user_obj.promotion.save()
+					user_obj.save()
+					response['status'] = 200
+		except Exception as e:
+			pass
+
 		return Response(response)
 
 @login_required
 def results(request,prom_id):
 	page = "View Promotion results"
+	promotion_id = prom_id
 	promotions = PromotionStatus.objects.filter(promotion_id = prom_id)
 	return render(request,'dashboard/results.html',locals())
 
@@ -539,7 +549,53 @@ def template1(request):
 	temp = request.GET.get('id')
 	if temp:
 		temp_obj = TemplateModel.objects.get(id= temp)
-	return render(request,'dashboard/tempalte1.html',locals())
+	return render(request,'dashboard/template1.html',locals())
+
+@login_required
+def template2(request):
+	temp = request.GET.get('id')
+	if temp:
+		temp_obj = TemplateModel.objects.get(id= temp)
+	return render(request,'dashboard/template2.html',locals())
+
+def Details(request,prom_id):
+	page = "View User Results"
+	userinfo = UserStatus.objects.filter(promotion_id = prom_id)
+	return render(request,'dashboard/details.html',locals())
+
+def send_again(request):
+	response = {}
+	if request.method == 'POST':
+		data_id = request.POST.getlist('data_ids[]')
+		promotion_id = request.POST.get('promotion_id')
+		mails_data = PromotionModel.objects.get(pk=promotion_id)
+		promotion = PromotionStatus.objects.filter(pk__in = data_id)
+		subject = mails_data.templates.subject
+		file = mails_data.file
+
+		for promotion_status in promotion:
+
+			res = ''.join(random.choices(string.ascii_uppercase +
+                             string.digits, k = 8))
+			promotion_status.status = 'sent'
+			link = request.build_absolute_uri('/')+ 'download/' + res + str(promotion_status.id)
+			temp_obj = mails_data.templates
+			html_message = loader.render_to_string('dashboard/'+ mails_data.templates.html_template,locals())
+			message = "Hello User"
+			send_mail(subject, message, (mails_data.name).upper(), [promotion_status.email_address,],html_message = html_message)
+			promotion_status.save()
+			response['status'] = True
+	return HttpResponse(json.dumps(response) , content_type = 'application/json')
+
+def upload(request):
+	if request.method == 'POST':
+		print(request.FILES)
+		file = request.FILES.get('file')
+		if file:
+			file_name = default_storage.save('images/'+ file.name, file)
+			url = '/media/images/' + file.name
+		return HttpResponse(url)
+
 
 
 
