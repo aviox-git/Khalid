@@ -482,7 +482,7 @@ def download(request,slug):
 	status_id.status ="visited"
 	status_id.save()
 	handler = ipinfo.getHandler(access_token)
-	details = handler.getDetails()
+	details = handler.getDetails(request.META.get('REMOTE_ADDR'))
 
 	user = UserStatus.objects.create(
 		promotion = status_id,
@@ -524,7 +524,7 @@ class UpdateUser(APIView):
 					user_obj.status = 'installed' 
 					user_obj.ip_address = request.META.get('REMOTE_ADDR')
 					handler = ipinfo.getHandler(access_token)
-					details = handler.getDetails()
+					details = handler.getDetails(request.META.get('REMOTE_ADDR'))
 					details_dict = {}
 					details_dict.update(request.data)
 					details_dict.update(details.all)
