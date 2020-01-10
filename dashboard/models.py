@@ -72,6 +72,11 @@ class UserStatus(models.Model):
 			obj = json.loads(self.visited_info)
 			return obj
 
+	def mobileinfo(self):
+		if self.mobile_info:
+			obj = json.loads(self.mobile_info)
+			return obj
+
 
 
 
