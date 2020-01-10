@@ -31,7 +31,7 @@ urlpatterns = [
 
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
 
-    path('dashboard/', include('dashboard.urls')),
+    path('', include('dashboard.urls')),
     path('download/<slug:slug>', download, name= 'download'),
 
 

@@ -68,8 +68,9 @@ class UserStatus(models.Model):
 	request_type = models.CharField(max_length = 5, choices = FOR_REQUEST)
 
 	def visitedinfo(self):
-		obj = json.loads(self.visited_info)
-		return obj
+		if self.visited_info:
+			obj = json.loads(self.visited_info)
+			return obj
 
 
 

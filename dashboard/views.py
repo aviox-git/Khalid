@@ -33,7 +33,7 @@ access_token = 'dbeef9181999dc'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-login_url = '/dashboard/login'
+login_url = '/login'
 
 
 class promotionlist(APIView):
@@ -50,7 +50,7 @@ class promotionlist(APIView):
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+@login_required(login_url = login_url)
 def base(request):
 	page = "homepage"
 	return render(request,'dashboard/home.html',locals())
@@ -70,17 +70,17 @@ def login(request):
 			if user is not None:
 				auth_login(request,user)
 				messages.success(request, "You are successfully logged in")
-				return HttpResponseRedirect("/dashboard")
+				return HttpResponseRedirect("/")
 			else:
 				messages.error(request,'Invalid credentials')
-				return HttpResponseRedirect('/dashboard/login')
+				return HttpResponseRedirect('/login')
 	return render(request,'dashboard/login.html')
 
 @login_required(login_url = login_url)
 def logoutView(request):
 	logout(request)
 	messages.success(request,"you have successfully logged")
-	return HttpResponseRedirect('/dashboard/login')
+	return HttpResponseRedirect('/login')
 
 @login_required(login_url = login_url)
 def department(request):
@@ -90,7 +90,7 @@ def department(request):
 		name = request.POST.get('name')
 		Departments.objects.create(name = name)
 		messages.success(request, "successfull")
-		return HttpResponseRedirect('/dashboard/department')
+		return HttpResponseRedirect('/department')
 		
 	departments=Departments.objects.all()
 	return render(request, 'dashboard/deparment.html',locals())
@@ -109,7 +109,7 @@ def departmentedit(request):
 		department.name = name
 		department.save()
 
-	return HttpResponseRedirect('/dashboard/department')
+	return HttpResponseRedirect('/department')
 
 @login_required(login_url = login_url)
 def employees(request):
@@ -148,7 +148,7 @@ def add_employees(request):
 			employee_data = Employee(user = new_user, department_id = department_id)
 			employee_data.save()
 			messages.success(request , 'Username is successfully created')
-		return HttpResponseRedirect('/dashboard/employees') 
+		return HttpResponseRedirect('/employees') 
 	return render(request,'dashboard/addemployees.html',locals())
 
 @login_required(login_url = login_url)
@@ -169,7 +169,7 @@ def employees_edit(request,emp_id):
 		emp.department = depart
 		emp.save()
 
-		return HttpResponseRedirect('/dashboard/employees')
+		return HttpResponseRedirect('/employees')
 
 	return render(request,'dashboard/employees_edit.html',locals())
 
@@ -185,7 +185,7 @@ def active_employees(request, user_id):
 		user.is_active = True
 		messages.success(request,'user is active'.format(user.username))
 	user.save()
-	return HttpResponseRedirect('/dashboard/employees')	
+	return HttpResponseRedirect('/employees')	
 
 @login_required(login_url = login_url) 
 def FileView(request):
@@ -232,7 +232,7 @@ def AddFile(request):
 											email = email
 											))
 			FileOjectModel.objects.bulk_create(obj_list)		
-			return HttpResponseRedirect("/dashboard/fileview") 
+			return HttpResponseRedirect("/fileview") 
 		else:
 			if file.errors:
 				for field in file:
@@ -251,7 +251,7 @@ def File_edit(request, id):
 		form = FilemodelForm (request.POST, request.FILES)
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect("/dashboard/fileview")
+			return HttpResponseRedirect("/fileview")
 		else:
 			if form.errors:
 				for field in form:
@@ -294,7 +294,7 @@ def add_promotion(request):
 		prom_add = PromotionModel(name = name , file = file_model, start_on = start_on, templates=prom_model)
 		prom_add.save()
 		messages.success(request,"Add Template successfull")
-		return HttpResponseRedirect("/dashboard/promotion")
+		return HttpResponseRedirect("/promotion")
 	return render(request,"dashboard/addpromotion.html", locals())
 
 @login_required(login_url = login_url)
@@ -323,7 +323,7 @@ def promotion_edit(request,pk):
 			pro.templates = file_prom
 
 		pro.save()
-		return HttpResponseRedirect('/dashboard/promotion')
+		return HttpResponseRedirect('/promotion')
 	return render(request,'dashboard/promotion_edit.html',locals())
 
 @login_required(login_url = login_url)
@@ -362,7 +362,7 @@ def add_template(request):
 		temp_add.ios_link = ios_link
 		temp_add.save()
 		messages.success(request,"Add Template successfull")
-		return HttpResponseRedirect('/dashboard/template')
+		return HttpResponseRedirect('/template')
 
 	return render(request, 'dashboard/addtemplate.html', locals())
 
@@ -394,7 +394,7 @@ def edit_template(request,pk):
 		temp_edit.save()
 		
 		messages.success(request,"Template Edit successfully")
-		return HttpResponseRedirect('/dashboard/template')
+		return HttpResponseRedirect('/template')
 		
 	return render(request, 'dashboard/edit_template.html', locals())
 
@@ -407,7 +407,7 @@ def file_object(request,file_id):
 		files = FileOjectModel.objects.get(id=file_id)
 		file.delete()
 		messages.success(request,"File objects delete successfully")
-		return HttpResponseRedirect('/dashboard/file-object/'+str(file_id))
+		return HttpResponseRedirect('/file-object/'+str(file_id))
 
 	return render (request,'dashboard/file_object.html/', locals())
 
@@ -424,7 +424,7 @@ def object_add(request):
 		add_temps =FileOjectModel(file = add_temp, name=name , email=email)
 		add_temps.save()
 		messages.success(request,"File object Added successfully")
-		return HttpResponseRedirect('/dashboard/file-object/'+str(file))
+		return HttpResponseRedirect('/file-object/'+str(file))
 	return render (request,'dashboard/object_add.html', locals())
 
 @login_required(login_url = login_url)
@@ -445,7 +445,7 @@ def edit_object(request,pk):
 		temp_edit.file = file_obj
 		temp_edit.save() 
 		messages.success(request,"Template Edit successfully")
-		return HttpResponseRedirect('/dashboard/file-object/'+str(file))
+		return HttpResponseRedirect('/file-object/'+str(file))
 		
 	return render(request, 'dashboard/edit_object.html', locals())
 
@@ -463,16 +463,16 @@ def mail(request,pk):
                              string.digits, k = 8))
 		promotion_status = PromotionStatus(email_address=item , promotion=mails_data)
 		promotion_status.save()
-		link = request.build_absolute_uri('/')+ 'download/' + res + str(promotion_status.id)
+		link = 'https://nehjezdoor.online/' + 'download/' + res + str(promotion_status.id)
 		temp_obj = mails_data.templates
+		site = 'https://nehjezdoor.online'
 		html_message = loader.render_to_string('dashboard/'+ mails_data.templates.html_template,locals())
 		html_message = html_message.replace('http://vikasaviox123',link)
 		message = "Hello User"
 		send_mail(subject, message, (mails_data.name).upper(), [item,],html_message = html_message)
-	
 	messages.success(request,"Email sent successfully")
 
-	return HttpResponseRedirect('/dashboard/promotion',locals())
+	return HttpResponseRedirect('/promotion',locals())
 
 def download(request,slug):
 
@@ -484,12 +484,14 @@ def download(request,slug):
 	handler = ipinfo.getHandler(access_token)
 	details = handler.getDetails(request.META.get('REMOTE_ADDR'))
 
-	user = UserStatus.objects.create(
+	user = UserStatus(
 		promotion = status_id,
 		status = status_id.status, 
 		ip_address = request.META.get('REMOTE_ADDR'),
 		user_os = request.META.get('HTTP_USER_AGENT'),
 		)
+	visited_info = json.dumps(details.all)
+
 	user.visited_info = json.dumps(details.all)
 	
 	if type_ == 'web':
@@ -501,7 +503,8 @@ def download(request,slug):
 	elif type_ == 'apk':
 		user.request_type = 'apk'
 		link = status_id.promotion.templates.apk_link
-	user.save()
+	if "google-proxy" not in visited_info:
+		user.save()
 	return HttpResponseRedirect(link)
 
 class UpdateUser(APIView):
@@ -550,6 +553,7 @@ def template1(request):
 	temp = request.GET.get('id')
 	if temp:
 		link = "http://vikasaviox123"
+		site = 'https://nehjezdoor.online'
 		temp_obj = TemplateModel.objects.get(id= temp)
 	return render(request,'dashboard/template1.html',locals())
 
@@ -558,6 +562,7 @@ def template2(request):
 	temp = request.GET.get('id')
 	if temp:
 		link = "http://vikasaviox123"
+		site = 'https://nehjezdoor.online'
 		temp_obj = TemplateModel.objects.get(id= temp)
 	return render(request,'dashboard/template2.html',locals())
 
@@ -566,6 +571,7 @@ def template3(request):
 	temp = request.GET.get('id')
 	if temp:
 		link = "http://vikasaviox123"
+		site = 'https://nehjezdoor.online'
 		temp_obj = TemplateModel.objects.get(id= temp)
 	return render(request,'dashboard/template3.html',locals())
 
@@ -574,6 +580,7 @@ def template4(request):
 	temp = request.GET.get('id')
 	if temp:
 		link = "http://vikasaviox123"
+		site = 'https://nehjezdoor.online'
 		temp_obj = TemplateModel.objects.get(id= temp)
 	return render(request,'dashboard/template4.html',locals())
 
@@ -597,11 +604,13 @@ def send_again(request):
 			res = ''.join(random.choices(string.ascii_uppercase +
                              string.digits, k = 8))
 			promotion_status.status = 'sent'
-			link = request.build_absolute_uri('/')+ 'download/' + res + str(promotion_status.id)
+			link = 'https://nehjezdoor.online/' + 'download/' + res + str(promotion_status.id)
 			temp_obj = mails_data.templates
+			site = 'https://nehjezdoor.online'
 			html_message = loader.render_to_string('dashboard/'+ mails_data.templates.html_template,locals())
 			html_message.replace('http://vikasaviox123',link)
 			message = "Hello"
+
 			send_mail(subject, message, (mails_data.name).upper(), [promotion_status.email_address,],html_message = html_message)
 			promotion_status.save()
 			response['status'] = True
