@@ -30,6 +30,7 @@ tr.shown td.details-control {
 
             <!-- /.box-header -->
             <div class="box-body">
+            
               <table class="table table-bordered table-striped" id="example">
                 <thead>
                 <tr>
@@ -142,7 +143,15 @@ function format ( d ) {
 
   $(document).ready(function() {
     var table = $('#example').DataTable( {
-        
+        // "ajax": "../ajax/data/objects.txt",
+        "columns": [
+            {
+                "className":      'details-control',
+                // "orderable":      false,
+                // "data":           null,
+                // "defaultContent": ''
+            },
+        ],
    dom: 'Bfrtip',
     buttons: [
         'copy', 'csv', 'excel', 'pdf', 'print'
