@@ -1,0 +1,211 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %} Template {% endblock %}
+{% block head %}
+
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
+    <style type="text/css">
+      td.details-control {
+    background: url('https://www.sailsrestaurants.com/_cms3/wwwroot/adminPublicFiles/design/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('https://www.sailsrestaurants.com/_cms3/wwwroot/adminPublicFiles/design/details_close.png') no-repeat center center;
+}
+    </style>
+    
+   
+{% endblock %}
+{% block content %}
+<section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">List Of All User Results</h3>
+              
+            </div>
+
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table class="table table-bordered table-striped" id="example">
+                <thead>
+                <tr>
+                  <th>Sr No.</th>
+                  <th>Promotion Name</th>
+                  <th>Email</th>
+                  <th>Status</th>
+                  <th>Requested For </th>
+                  <th>Visited Infomation</th>
+                  <th>Mobile Infomation</th>
+                </tr>
+                </thead>
+                <tbody>
+                  {% for user in users %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{user.promotion.promotion.name}}</td>
+                  <td>{{user.promotion.email_address}}</td>
+                  <td>{{user.promotion.status}}</td>
+                  <td>{{user.get_request_type_display}}</td>
+                  <td>{{user.visited_info}}</td>
+                  <td>
+                  {% if user.mobile_info %}{{user.mobile_info}}{% endif %}</td>
+                </tr>
+                {% endfor %}
+                
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>Sr No.</th>
+                  <th>Promotion Name</th>
+                  <th>Email</th>
+                  <th>Status</th>
+                  <th>Requested For </th>
+                  <th>Visited Infomation</th>
+                  <th>Mobile Infomation</th>
+                </tr>
+                </tfoot>
+              </table>
+
+
+
+            </div>
+
+            <!-- /.box-body -->
+
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.0.3/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.0.3/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.0.3/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+
+
+
+<script type="text/javascript">
+
+  /* Formatting function for row details - modify as you need */
+function format ( d ) {
+
+ var row = d[5]
+ var  table_data = ""
+  if (row){
+    var row = JSON.parse(d[5])
+  var row_data = ""
+   for(let key in row){
+    row_data += `<tr>
+            <th style="text-transform:capitalize; text-aling: center">${key}</th>
+            <td>${row[key]}</td>
+      </tr>`
+   }
+   table_data = '<h4>Visited Information</h4><table class="table table-bordered table-striped">'+ row_data +'</table><hr>';
+  }
+ 
+  
+
+    
+
+   // row 2
+   var row2 = d[6]
+   if (row2){
+      var row2 = JSON.parse(d[6])
+     var row_data2 = ""
+     for(let key in row2){
+      row_data2 += `<tr>
+              <th style="text-transform:capitalize; text-aling: center">${key}</th>
+              <td>${row2[key]}</td>
+        </tr>`
+     }
+     table_data = '<h4>Mobile Information</h4><table class="table table-bordered table-striped">'+ row_data2 +'</table><hr>'
+   }
+    
+    console.log(table_data);
+    return table_data;
+}
+
+
+  $(document).ready(function() {
+    var table = $('#example').DataTable( {
+        
+   dom: 'Bfrtip',
+    buttons: [
+        'copy', 'csv', 'excel', 'pdf', 'print'
+    ],
+     "columnDefs": [
+            
+            {
+                "targets": [ 5 ],
+                "visible": false
+            },
+            {
+                "targets": [ 6 ],
+                "visible": false
+            }
+        ],
+    'paging'      : true,
+    'lengthChange': true,
+    'searching'   : true,
+    'ordering'    : true,
+    'info'        : true,
+    'autoWidth'   : false
+        } );
+     
+    // Add event listener for opening and closing details
+    $('#example tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+ 
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child( format(row.data()) ).show();
+            tr.addClass('shown');
+        }
+    } );
+} );
+
+//   $(document).ready( function () {
+//   var table = $('#example').DataTable({
+//     dom: 'Bfrtip',
+//     buttons: [
+//         'copy', 'csv', 'excel', 'pdf', 'print'
+//     ],
+//      "columnDefs": [
+            
+//             {
+//                 "targets": [ 5 ],
+//                 "visible": false
+//             }
+//         ],
+//     'paging'      : true,
+//     'lengthChange': true,
+//     'searching'   : true,
+//     'ordering'    : true,
+//     'info'        : true,
+//     'autoWidth'   : false
+//   });
+// });
+
+</script>
+{% endblock %}
+

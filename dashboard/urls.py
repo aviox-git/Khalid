@@ -44,4 +44,6 @@ urlpatterns = [
 
 	path('send_again', views.send_again,name="send_again"),
 	path('upload', views.upload,name="upload"),
+
+	path('users', views.users,name="users"),
 ]

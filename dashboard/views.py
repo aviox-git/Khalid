@@ -482,7 +482,8 @@ def download(request,slug):
 	status_id.status ="visited"
 	status_id.save()
 	handler = ipinfo.getHandler(access_token)
-	details = handler.getDetails(request.META.get('REMOTE_ADDR'))
+	# details = handler.getDetails(request.META.get('REMOTE_ADDR'))
+	details = handler.getDetails()
 
 	user = UserStatus(
 		promotion = status_id,
@@ -623,6 +624,10 @@ def upload(request):
 			file_name = default_storage.save('images/'+ file.name, file)
 			url = '/media/images/' + file.name
 		return HttpResponse(url)
+
+def users(request):
+	users = UserStatus.objects.all().order_by('promotion')
+	return render(request,'dashboard/user_result.html',locals())
 
 
 
