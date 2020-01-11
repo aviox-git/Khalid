@@ -39,6 +39,7 @@ tr.shown td.details-control {
                   <th>Email</th>
                   <th>Status</th>
                   <th>Requested For </th>
+                  <th>Last Action On</th>
                   <th>Visited Infomation</th>
                   <th>Mobile Infomation</th>
                 </tr>
@@ -51,6 +52,7 @@ tr.shown td.details-control {
                   <td>{{user.promotion.email_address}}</td>
                   <td>{{user.promotion.status}}</td>
                   <td>{{user.get_request_type_display}}</td>
+                    <td>{{user.created_on}}</td>
                   <td>{{user.visited_info}}</td>
                   <td>
                   {% if user.mobile_info %}{{user.mobile_info}}{% endif %}</td>
@@ -65,7 +67,9 @@ tr.shown td.details-control {
                   <th>Email</th>
                   <th>Status</th>
                   <th>Requested For </th>
+                   <th>Last Action On</th>
                   <th>Visited Infomation</th>
+                 
                   <th>Mobile Infomation</th>
                 </tr>
                 </tfoot>
@@ -87,8 +91,8 @@ tr.shown td.details-control {
 
 {% endblock %}
 {% block js %}
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script> -->
+    <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script> -->
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.0.3/js/buttons.html5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.0.3/js/buttons.print.min.js"></script>
@@ -104,10 +108,10 @@ tr.shown td.details-control {
   /* Formatting function for row details - modify as you need */
 function format ( d ) {
 
- var row = d[5]
+ var row = d[6]
  var  table_data = ""
   if (row){
-    var row = JSON.parse(d[5])
+    var row = JSON.parse(d[6])
   var row_data = ""
    for(let key in row){
     row_data += `<tr>
@@ -117,15 +121,12 @@ function format ( d ) {
    }
    table_data = '<h4>Visited Information</h4><table class="table table-bordered table-striped">'+ row_data +'</table><hr>';
   }
- 
-  
 
-    
 
    // row 2
-   var row2 = d[6]
+   var row2 = d[7]
    if (row2){
-      var row2 = JSON.parse(d[6])
+      var row2 = JSON.parse(d[7])
      var row_data2 = ""
      for(let key in row2){
       row_data2 += `<tr>
@@ -143,36 +144,35 @@ function format ( d ) {
 
   $(document).ready(function() {
     var table = $('#example').DataTable( {
-        // "ajax": "../ajax/data/objects.txt",
-        "columns": [
-            {
-                "className":      'details-control',
-                // "orderable":      false,
-                // "data":           null,
-                // "defaultContent": ''
-            },
-        ],
+        
    dom: 'Bfrtip',
     buttons: [
         'copy', 'csv', 'excel', 'pdf', 'print'
     ],
      "columnDefs": [
-            
-            {
-                "targets": [ 5 ],
-                "visible": false
+
+            {   "targets": [ 0 ],
+                "className":      'details-control',
+                "orderable":      false,
+                // "data":           null,
+                "defaultContent": ''
             },
+            
             {
                 "targets": [ 6 ],
                 "visible": false
+            },
+            {
+                "targets": [ 7 ],
+                "visible": false
             }
         ],
-    'paging'      : true,
-    'lengthChange': true,
-    'searching'   : true,
-    'ordering'    : true,
-    'info'        : true,
-    'autoWidth'   : false
+        'paging'      : true,
+        'lengthChange': true,
+        'searching'   : true,
+        'ordering'    : true,
+        'info'        : true,
+        'autoWidth'   : false
         } );
      
     // Add event listener for opening and closing details

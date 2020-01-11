@@ -55,6 +55,7 @@ class PromotionStatus(models.Model):
 	promotion = models.ForeignKey(PromotionModel,on_delete=models.CASCADE, null =True)
 	email_address = models.EmailField(max_length = 80)
 	status = models.CharField(max_length = 20,choices = user_choice, default='sent')
+	created_on = models.DateField(auto_now_add = True)
 
 user_choices =(('sent','sent'),('visited', 'visited'),('download','download'),('installed','installed'))	
 FOR_REQUEST = (('ios','IOS'),('apk','APK'),('web','WEB'))	
@@ -66,6 +67,7 @@ class UserStatus(models.Model):
 	visited_info = models.TextField(null = True)
 	mobile_info = models.TextField(null = True)
 	request_type = models.CharField(max_length = 5, choices = FOR_REQUEST)
+	created_on = models.DateTimeField(auto_now_add = True)
 
 	def visitedinfo(self):
 		if self.visited_info:
