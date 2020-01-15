@@ -370,6 +370,9 @@ def add_template(request):
 def edit_template(request,pk):
 	page = "edit template"
 
+	if not request.user.is_superuser:
+		messages.error(request, 'You dont have the access of it')
+		return HttpResponseRedirect('/')
 	temp_edit = TemplateModel.objects.get(pk=pk)
 	if request.method == 'POST':
 		name = request.POST.get('name')

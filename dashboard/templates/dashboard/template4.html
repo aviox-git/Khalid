@@ -407,7 +407,7 @@
 	        processData: false,
 		  	data: formdata,
 		  	success: function(response){
-		  		$('#slider1').attr('src',response);
+		  		$('#slider1').attr('src','{{site}}' +  response);
 	  			
 				}
 		  })
@@ -427,7 +427,7 @@
 	        processData: false,
 		  	data: formdata,
 		  	success: function(response){
-		  		$('#slider2').attr('src',response);
+		  		$('#slider2').attr('src','{{site}}' +  response);
 	  			
 				}
 		  })
@@ -447,7 +447,7 @@
 	        processData: false,
 		  	data: formdata,
 		  	success: function(response){
-		  		$('#banner_image').attr('src',response);
+		  		$('#banner_image').attr('src','{{site}}' + response);
 	  			
 				}
 		  })

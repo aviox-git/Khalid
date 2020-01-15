@@ -678,6 +678,9 @@
          $('textarea').each(function(){
            $(this).parent().html($(this).val());
             });
+         $('.dot').hide();
+		 $('.btn-success').hide();
+		 $('.fa-eye-dropper').hide();
          var html = $('html').html();
          $.ajax({
           url: '{% url "dashboard:edit_template" temp %}',
@@ -697,10 +700,10 @@
       });
     $('.btn-success').hide();
     {% else %}
-    $('.btn-success').hide();
-    $('.dot').hide();
-    $('.fa-eye-dropper').hide();
-    {% endif %}
+	$('.dot').hide();
+	 $('.btn-success').hide();
+	 $('.fa-eye-dropper').hide();
+	{% endif %}
   </script>
 </body>
 {% endif %}
