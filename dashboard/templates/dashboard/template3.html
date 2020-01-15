@@ -142,17 +142,17 @@
 																	<tr>
 																		<td align="right">
 																			<table border="0" cellspacing="0" cellpadding="0" class="center" style="text-align:center;">
-																				<tr>
-																					<td class="img" width="20" style="font-size:0pt; line-height:0pt; text-align:left;">
-																						<img src="{% static 'email/template3/bullet.jpg' %}" width="10" height="3" border="0" alt="" /></td>
-																					<td class="nav" style="color:#000000; font-family:'Yantramanav', Arial, sans-serif; font-size:16px; line-height:20px; text-align:right; min-width:auto !important; font-weight:500;"><a href="https://nehjez.com/Home?type=flight" target="_blank" class="link-black" style="color:#000001; text-decoration:none;"><span class="link-black" style="color:#000001; text-decoration:none;"> FLIGHT </span></a></td>
-																					<td class="content-spacing" width="25" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
-																					<td class="img" width="20" style="font-size:0pt; line-height:0pt; text-align:left;"><img src="{% static 'email/template3/bullet.jpg' %}" width="10" height="3" border="0" alt="" /></td>
-																					<td class="nav" style="color:#000000; font-family:'Yantramanav', Arial, sans-serif; font-size:16px; line-height:20px; text-align:right; min-width:auto !important; font-weight:500;"><a href="https://nehjez.com/Home?type=hotel" target="_blank" class="link-black" style="color:#000001; text-decoration:none;"><span class="link-black" style="color:#000001; text-decoration:none;">HOTEL</span></a></td>
-																					<td class="content-spacing" width="25" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
-																					<td class="img" width="20" style="font-size:0pt; line-height:0pt; text-align:left;"><img src="{% static 'email/template3/bullet.jpg' %}" width="10" height="3" border="0" alt="" /></td>
-																					<td class="nav" style="color:#000000; font-family:'Yantramanav', Arial, sans-serif; font-size:16px; line-height:20px; text-align:right; min-width:auto !important; font-weight:500;"><a href="https://nehjez.com/HolidayPackages" target="_blank" class="link-black" style="color:#000001; text-decoration:none;"><span class="link-black" style="color:#000001; text-decoration:none;">PACKAGES</span></a></td>
-																				</tr>
+										<tr>
+											<td class="img" width="20" style="font-size:0pt; line-height:0pt; text-align:left;">
+												<img src="{{site}}{% static 'email/template3/bullet.jpg' %}" width="10" height="3" border="0" alt="" /></td>
+											<td class="nav" style="color:#000000; font-family:'Yantramanav', Arial, sans-serif; font-size:16px; line-height:20px; text-align:right; min-width:auto !important; font-weight:500;"><a href="https://nehjez.com/Home?type=flight" target="_blank" class="link-black" style="color:#000001; text-decoration:none;"><span class="link-black" style="color:#000001; text-decoration:none;"> FLIGHTS </span></a></td>
+											<td class="content-spacing" width="25" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
+											<td class="img" width="20" style="font-size:0pt; line-height:0pt; text-align:left;"><img src="{{site}}{% static 'email/template3/bullet.jpg' %}" width="10" height="3" border="0" alt="" /></td>
+											<td class="nav" style="color:#000000; font-family:'Yantramanav', Arial, sans-serif; font-size:16px; line-height:20px; text-align:right; min-width:auto !important; font-weight:500;"><a href="https://nehjez.com/Home?type=hotel" target="_blank" class="link-black" style="color:#000001; text-decoration:none;"><span class="link-black" style="color:#000001; text-decoration:none;">HOTELS</span></a></td>
+											<td class="content-spacing" width="25" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
+											<td class="img" width="20" style="font-size:0pt; line-height:0pt; text-align:left;"><img src="{{site}}{% static 'email/template3/bullet.jpg' %}" width="10" height="3" border="0" alt="" /></td>
+											<td class="nav" style="color:#000000; font-family:'Yantramanav', Arial, sans-serif; font-size:16px; line-height:20px; text-align:right; min-width:auto !important; font-weight:500;"><a href="https://nehjez.com/HolidayPackages" target="_blank" class="link-black" style="color:#000001; text-decoration:none;"><span class="link-black" style="color:#000001; text-decoration:none;">PACKAGES</span></a></td>
+										</tr>
 																			</table>
 																		</td>
 																	</tr>
@@ -470,7 +470,8 @@
 	        processData: false,
 		  	data: formdata,
 		  	success: function(response){
-		  		$(image).attr('src',response);
+
+		  		$(image).attr('src', '{{site}}' + response);
 	  			
 				}
 		  })
